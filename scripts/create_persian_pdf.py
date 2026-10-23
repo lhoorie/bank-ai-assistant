@@ -1,4 +1,4 @@
-"""Generate a selectable Persian PDF with real shaped text and embedded fonts."""
+"""Generate a selectable Persian PDF with shaped text and embedded fonts."""
 from pathlib import Path
 
 PAGES = [

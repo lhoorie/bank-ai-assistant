@@ -1,4 +1,4 @@
-"""Capture scenario responses and judge them through Jev's Decisions API."""
+"""Capture scenario responses and judge them through the Decisions API."""
 import argparse
 from collections import Counter
 from datetime import datetime, timezone

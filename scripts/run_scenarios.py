@@ -1,4 +1,4 @@
-"""Capture real API responses for manual evaluation; never fabricate model output."""
+"""Capture API responses for manual scenario evaluation."""
 import argparse
 import json
 import time
@@ -45,7 +45,7 @@ def main():
             status, output = None, {'error': 'API unavailable, timed out, or returned invalid JSON'}
         results.append({**case, 'http_status': status,
                         'elapsed_seconds': round(time.monotonic()-started, 2), 'actual': output})
-        # Checkpoint after each case, replacing rather than appending unbounded history.
+        # Save progress after each case; overwrite the selected output file.
         args.output.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding='utf-8')
         print(f"{case['id']}: HTTP {status}, {results[-1]['elapsed_seconds']}s", flush=True)
     print(f'Saved {args.output}; manually review expected versus actual. HTTP 200 is not a quality pass.')

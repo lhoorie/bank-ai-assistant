@@ -12,7 +12,7 @@ from app.vector_store import VectorStore
 from app.timing import timed
 
 class ProviderEmbeddings(Embeddings):
-    """LangChain adapter retaining the existing provider and credential configuration."""
+    """LangChain embedding adapter for the configured model provider."""
     def __init__(self, model):
         self.model = model
 

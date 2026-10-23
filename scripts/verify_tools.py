@@ -1,4 +1,4 @@
-"""Capture real local tool output, explicitly separate from LLM evaluation."""
+"""Record SQL and calculator outputs without calling a language model."""
 import json
 from pathlib import Path
 from app.seed import seed
