@@ -12,6 +12,7 @@ from app.agents import Coordinator
 from app.model import Model, ModelError
 from app.seed import seed
 from app.explorer import router as explorer_router
+from app.evaluation import router as evaluation_router
 from app.logging_utils import event, request_id_context
 
 logging.basicConfig(level=getattr(logging, os.getenv('LOG_LEVEL', 'INFO').upper(), logging.INFO),
@@ -33,6 +34,7 @@ app = FastAPI(title='Adan Demo Banking Assistant', version='0.2.0', lifespan=lif
 STATIC = Path(__file__).resolve().parent / 'static'
 app.mount('/static', StaticFiles(directory=STATIC), name='static')
 app.include_router(explorer_router)
+app.include_router(evaluation_router)
 
 @app.middleware('http')
 async def log_ask_request(request: Request, call_next):
@@ -57,6 +59,10 @@ async def log_ask_request(request: Request, call_next):
               status=status, duration_ms=round((time.perf_counter()-start)*1000, 1))
         request_id_context.reset(token)
 
+
+@app.get('/evaluation', include_in_schema=False)
+def evaluation_page():
+    return FileResponse(STATIC / 'evaluation.html')
 
 @app.get('/explorer', include_in_schema=False)
 def explorer_page():

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>آدان | ارزیابی</title><link rel="stylesheet" href="/static/style.css?v=5"><link rel="stylesheet" href="/static/evaluation.css"><script src="/static/evaluation.js" defer></script></head>
+<body><div class="explorer-shell evaluation-shell">
+<header><div><strong>گزارش ارزیابی</strong><p>امتیازها، پاسخ مرجع و شواهد هر سناریو</p></div><nav class="page-nav" aria-label="بخش‌های برنامه"><a href="/">گفت‌وگو</a><a href="/explorer">داده‌ها</a><a href="/evaluation" aria-current="page">ارزیابی</a></nav></header>
+<section class="explorer-controls"><label for="report">گزارش</label><select id="report"></select><button id="refresh" type="button">تازه‌سازی</button><button id="download" type="button" disabled>دانلود JSON</button></section>
+<p id="eval-status" role="status" aria-live="polite">در حال دریافت گزارش‌ها…</p>
+<div id="report-meta"></div><div id="summary-cards" class="eval-grid"></div><div id="metric-cards" class="eval-grid"></div>
+<p class="eval-note">امتیازها داوری مدل در مقیاس صفر تا یک هستند. موارد نامشخص و خطاها در میانگین معیارها حساب نمی‌شوند؛ تعداد پوشش کنار هر معیار آمده است. نتایج فقط مربوط به سناریوهای همین گزارش‌اند.</p>
+<section class="explorer-controls"><label for="filter">نتیجه</label><select id="filter"><option value="all">همه</option><option value="pass">قبول</option><option value="partial">ناقص</option><option value="fail">رد</option><option value="api_error">خطای برنامه</option><option value="judge_error">خطای داور</option></select><label for="search">جست‌وجوی سناریو</label><input id="search" type="search" placeholder="شناسه یا متن سؤال"></section>
+<p id="result-count"></p><div id="results"></div>
+<p class="footnote">مشاهده و تازه‌سازی این صفحه درخواستی به مدل نمی‌فرستد. نتایج با اجرای پایپ‌لاین ارزیابی تولید می‌شوند.</p>
+</div></body></html>

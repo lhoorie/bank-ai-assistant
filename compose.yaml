@@ -6,6 +6,8 @@ services:
       options:
         max-size: "5m"
         max-file: "3"
+    volumes:
+      - ./examples/evaluation:/app/examples/evaluation
     env_file: .env
     environment:
       MILVUS_URI: http://milvus:19530

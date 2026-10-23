@@ -42,6 +42,7 @@ The provider must support `/chat/completions` with tools, `/embeddings`, and `/r
 | Destination | Link |
 | :--- | :--- |
 | **Chat** | [localhost:8000](http://localhost:8000/) |
+| **Evaluation reports** | [Evaluation dashboard](http://localhost:8000/evaluation) |
 | **Database & chunks** | [Data explorer](http://localhost:8000/explorer) |
 | **API playground** | [Swagger UI](http://localhost:8000/docs) |
 | **Liveness** | [Health check](http://localhost:8000/health) |
@@ -210,6 +211,12 @@ docker compose exec assistant python -m scripts.evaluate_scenarios \
 ```
 
 Each completed scenario checkpoints the JSON report. The selected output is overwritten on each run; choose a different `--output` to preserve runs. Reports include verdict probabilities, available provider usage/cost, pass rates over all cases and judged cases, and mean/p95 successful assistant request latency. Judge latency is excluded. Probabilities are not measured accuracy. Exit code is 0 only when every selected case passes; partial answers, failures and infrastructure errors return 1. Generated reports under `examples/evaluation/` are ignored by Git. Historical captures evaluate their original questions, not the revised question wording.
+
+### View reports in the UI
+
+Open [Evaluation](http://localhost:8000/evaluation) from the chat or data explorer. Choose a report to see metric means and coverage, verdict counts, pass rates and response latency. Filter or search scenarios, then expand one for the reference answer, actual answer, metric probabilities, tool evidence, timings and full JSON. The selected report can be downloaded. Reading and refreshing reports makes no model calls.
+
+Compose mounts `./examples/evaluation` into the assistant, so pipeline reports appear immediately on the host and dashboard. The report folder must exist and contain evaluator JSON reports; with no reports, the page shows an empty state. The report API is read-only and shares the demo application's lack of authentication. API routes are `/api/evaluations` and `/api/evaluations/{name}`.
 
 ### Five evaluation metrics
 
