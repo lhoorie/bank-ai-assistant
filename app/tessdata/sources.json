@@ -1,0 +1,7 @@
+{
+  "source": "https://github.com/tesseract-ocr/tessdata_fast/tree/4.1.0",
+  "sha256": {
+    "fas.traineddata": "db1c0a91208aff00d3cf1ed2c1d23f76419afd5f024688b4f71adc3f2ce4a505",
+    "eng.traineddata": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+  }
+}

@@ -1,0 +1,45 @@
+services:
+  assistant:
+    build: .
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+    env_file: .env
+    environment:
+      MILVUS_URI: http://milvus:19530
+    depends_on:
+      milvus:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+  milvus:
+    image: milvusdb/milvus:v2.6.3
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+    command: ["milvus", "run", "standalone"]
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      ETCD_USE_EMBED: "true"
+      ETCD_DATA_DIR: /var/lib/milvus/etcd
+      ETCD_CONFIG_PATH: /milvus/configs/embedEtcd.yaml
+      COMMON_STORAGETYPE: local
+      DEPLOY_MODE: STANDALONE
+    volumes:
+      - milvus_data:/var/lib/milvus
+      - ./config/embedEtcd.yaml:/milvus/configs/embedEtcd.yaml:ro
+    ports:
+      - "127.0.0.1:19530:19530"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 90s
+volumes:
+  milvus_data:

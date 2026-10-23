@@ -1,0 +1,12 @@
+fastapi==0.119.1
+uvicorn==0.38.0
+pypdf==6.1.1
+sqlglot==27.28.1
+reportlab==4.4.4
+pytest==8.4.2
+httpx==0.28.1
+langchain-core==1.6.13
+langgraph==1.2.16
+pymilvus==2.6.3
+PyMuPDF==1.26.7
+langsmith==0.14.12
