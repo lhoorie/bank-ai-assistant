@@ -182,6 +182,35 @@ python -m scripts.run_scenarios
 
 The runner overwrites `examples/actual-results.json`, checkpoints each result, and records HTTP status and elapsed time. Review expected versus actual manually: HTTP 200 alone does not establish correctness. These commands make real provider calls except `--list`. See [recorded evaluation](examples/README.md) for actual outputs and the observed incomplete Persian answer. `examples/tool-results.json` contains deterministic local tool results, not LLM answers.
 
+## Automated scenario evaluation with Jev
+
+The evaluator sends each scenario to the running assistant, then submits the question, expected behavior, answer and tool traces to Jev through the [Decisions API](https://openrouter.ai/blog/tutorials/how-to-use-jev/). Jev chooses `pass`, `partial`, or `fail`. API and judge errors are recorded separately. These are model judgments, not proof of correctness; manually review important cases. The judge receives sample customer data and traces. Database immutability requires independent verification; a refusal alone cannot establish it.
+
+Rebuild the assistant image after adding the evaluator. Compose supplies credentials from `.env`:
+
+```bash
+docker compose up -d --build assistant
+# A small run; both assistant and judge make paid provider calls:
+docker compose exec assistant python -m scripts.evaluate_scenarios \
+  --ids account-opening persian-opening balance-ratio
+# All 22 scenarios:
+docker compose exec assistant python -m scripts.evaluate_scenarios
+# Copy the checkpointed report onto the host:
+docker compose cp assistant:/app/examples/evaluation/latest.json examples/jev-evaluation.json
+```
+
+Use `EVAL_MODEL` to pin the judge version for comparisons (default `~typesafe/jev-latest`), `EVAL_API_KEY` to override `MODEL_API_KEY`, and `EVAL_BASE_URL` to override `ROUTER_BASE_URL`. The alias can change over time; actual returned judge model IDs are saved per result. Local execution requires exported environment variables; the script does not load `.env` itself.
+
+To judge an existing capture without running the assistant again:
+
+```bash
+docker compose exec assistant python -m scripts.evaluate_scenarios \
+  --input examples/actual-results.json \
+  --output examples/evaluation/recorded.json
+```
+
+Each completed scenario checkpoints the JSON report. The selected output is overwritten on each run; choose a different `--output` to preserve runs. Reports include verdict probabilities, available provider usage/cost, pass rates over all cases and judged cases, and mean/p95 successful assistant request latency. Judge latency is excluded. Probabilities are not measured accuracy. Exit code is 0 only when every selected case passes; partial answers, failures and infrastructure errors return 1. Generated reports under `examples/evaluation/` are ignored by Git. Historical captures evaluate their original questions, not the revised question wording.
+
 ## Limitations
 
 This demo has no authentication and uses sample customer data. Model-generated SQL and answers still require evaluation; OCR quality depends on the PDF. Each question is independent, and old Milvus collections need explicit cleanup. The current Compose setup persists Milvus only; keep PDFs and seed data in the project before recreating containers.
