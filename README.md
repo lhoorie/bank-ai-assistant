@@ -211,6 +211,37 @@ docker compose exec assistant python -m scripts.evaluate_scenarios \
 
 Each completed scenario checkpoints the JSON report. The selected output is overwritten on each run; choose a different `--output` to preserve runs. Reports include verdict probabilities, available provider usage/cost, pass rates over all cases and judged cases, and mean/p95 successful assistant request latency. Judge latency is excluded. Probabilities are not measured accuracy. Exit code is 0 only when every selected case passes; partial answers, failures and infrastructure errors return 1. Generated reports under `examples/evaluation/` are ignored by Git. Historical captures evaluate their original questions, not the revised question wording.
 
+### Five evaluation metrics
+
+Each Jev request judges five independent metrics in addition to the overall verdict:
+
+| Metric | Compared inputs | Meaning |
+| --- | --- | --- |
+| `faithfulness` | Candidate answer vs successful tool evidence | Factual claims supported by retrieved text, database rows and calculator results |
+| `completeness` | Question, reference answer and candidate | Coverage of all requested facts and expected behavior |
+| `context_relevance` | Question vs retrieved PDF text / database rows | Usefulness of returned context, independent of answer quality |
+| `answer_relevance` | Question vs candidate answer | Directness and absence of irrelevant material, independent of factual correctness |
+| `correctness` | Candidate vs reference answer | Factual/numeric correctness, units and expected behavior |
+
+These are custom Jev rubric judgments, not canonical RAGAS implementations or claim-count ratios. Jev selects a discrete level from 0 (unsatisfied) through 4 (fully satisfied); the report stores `score = level / 4`, the choice and its probability distribution. Probability is not the metric score. A `not_applicable` decision is stored as `null`. Faithfulness without usable tool evidence and context relevance without retrieved document text or database rows are forced to `null`, never a free perfect score. Empty retrieval is therefore not confused with irrelevant returned context. No retrieval recall is measured because the dataset has no exhaustive gold context labels.
+
+Each scenario can supply a reviewed `reference_answer` (plain text); otherwise its existing `expected` field is the reference. Current expectations are short behavioral/factual rubrics, not complete gold prose answers. For stronger correctness evaluation, provide human-reviewed references. For example, a custom scenario file may contain:
+
+```json
+[
+  {
+    "id": "account-opening",
+    "question": "برای افتتاح حساب در بانک نمونه آدان چه مدارکی لازم است و حداقل موجودی چقدر است؟",
+    "expected": "Identity document, verified mobile number, 1000000 IRR; cite the source.",
+    "reference_answer": "برای افتتاح حساب در بانک نمونه آدان، مدرک هویتی و شماره موبایل تأییدشده لازم است. حداقل موجودی افتتاح حساب ۱٬۰۰۰٬۰۰۰ ریال است. منبع: accounts.pdf، صفحهٔ ۱."
+  }
+]
+```
+
+Run a custom dataset with `--scenarios examples/my-scenarios.json`. For `--input`, the reference comes from each captured record; `--scenarios` is not used. All fields are sent to Jev as untrusted evaluation data; prompt isolation mitigates but does not eliminate judge prompt injection.
+
+Per-case results are in `results[].judgment.metrics`. Aggregates are in `summary.metrics`, with `mean`, `scored` and `unscored` for each metric. Means exclude unavailable cases and infrastructure errors; coverage counts expose those exclusions. The JSON contains metric definitions and scale for reproducibility. Metrics do not change the overall verdict or exit policy. Historical reports must be re-evaluated to obtain these fields.
+
 ## Limitations
 
 This demo has no authentication and uses sample customer data. Model-generated SQL and answers still require evaluation; OCR quality depends on the PDF. Each question is independent, and old Milvus collections need explicit cleanup. The current Compose setup persists Milvus only; keep PDFs and seed data in the project before recreating containers.
