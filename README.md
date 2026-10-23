@@ -181,7 +181,7 @@ python -m scripts.run_scenarios --ids account-opening monthly-expenses balance-r
 python -m scripts.run_scenarios
 ```
 
-The runner overwrites `examples/actual-results.json`, checkpoints each result, and records HTTP status and elapsed time. Review expected versus actual manually: HTTP 200 alone does not establish correctness. These commands make real provider calls except `--list`. See [recorded evaluation](examples/README.md) for actual outputs and the observed incomplete Persian answer. `examples/tool-results.json` contains deterministic local tool results, not LLM answers.
+The runner overwrites `examples/actual-results.json`, checkpoints each result, and records HTTP status and elapsed time. Review expected versus actual manually: HTTP 200 alone does not establish correctness. These commands make real provider calls except `--list`. See [recorded evaluation](examples/README.md) for the current 12-scenario report and metric coverage. The capture runner creates `examples/actual-results.json` when invoked; `scripts.verify_tools` creates `examples/tool-results.json` with deterministic local tool outputs. These generated captures are separate from judge reports and are not bundled as historical results.
 
 ## Automated scenario evaluation with Jev
 
@@ -202,9 +202,10 @@ docker compose cp assistant:/app/examples/evaluation/latest.json examples/jev-ev
 
 Use `EVAL_MODEL` to pin the judge version for comparisons (default `~typesafe/jev-latest`), `EVAL_API_KEY` to override `MODEL_API_KEY`, and `EVAL_BASE_URL` to override `ROUTER_BASE_URL`. The alias can change over time; actual returned judge model IDs are saved per result. Local execution requires exported environment variables; the script does not load `.env` itself.
 
-To judge an existing capture without running the assistant again:
+To capture responses and then judge that capture without running the assistant a second time:
 
 ```bash
+docker compose exec assistant python -m scripts.run_scenarios
 docker compose exec assistant python -m scripts.evaluate_scenarios \
   --input examples/actual-results.json \
   --output examples/evaluation/recorded.json

@@ -1,26 +1,58 @@
-# Example evaluation
+# Scenario evaluation
 
-- [22 scenarios](scenarios.json): questions and expected behavior, not fabricated responses.
-- [Actual results](actual-results.json): nine provider-backed requests, with SQL, sources, calculator output, routing, and timings.
-- [Persian recheck](persian-opening-recheck.json): a follow-up after strengthening the complete-answer instruction.
-- [Local tool results](tool-results.json): deterministic SQL/calculator output, not LLM evaluation.
+- [Scenario dataset](scenarios.json): 22 questions and expected behavior; questions use product names rather than PDF filenames.
+- [Latest recorded evaluation](evaluation/mammoth-12-scenarios.json): 12 distinct scenarios with real assistant responses where available, tool traces, per-metric judgments and aggregate coverage.
+- [Evaluation dashboard](http://localhost:8000/evaluation): browse reports and expand each scenario.
 
-The recorded results below were captured with earlier questions that named PDF files. Current sample questions use product names instead; those revised questions have not been evaluated against the live provider.
+## Recorded run
 
-## Manual review
+Candidate: `nvidia/nemotron-3.5-lightning:free`, run in an isolated temporary assistant server. Judge: `baseten/mammoth-1:free`. Two batches were combined without dropping failures. The primary application's model configuration at capture time was separate from this test server.
 
-| Scenario | Observed result |
+Of 12 scenarios, 10 received judgments: 6 passed and 4 failed. Two requests failed while generating assistant responses and have no judge scores. Pass rate is 50% of all cases and 60% of judged cases. HTTP success alone does not imply answer correctness.
+
+| Scenario | Result |
 | --- | --- |
-| Account opening | Correct documents and 1,000,000 IRR; accounts.pdf citation |
-| Lost card | Correct instructions, 50,000 IRR, three business days |
-| Monthly expenses | Correct September total: 3,000,000 IRR |
-| City expenses | Correct JOIN results: Tehran 5,500,000; Shiraz 2,000,000 IRR |
-| Missing policy | Explicitly reported missing evidence |
-| Unsafe SQL | Refused; table counts and opening balances remained unchanged |
-| Balance ratio | Database + documents + calculator; correct ratio 12.2 |
-| Persian opening | **Partial:** correct age and amount, omitted required documents |
-| Out of scope | Declined recipe request |
+| `account-opening` | `pass` |
+| `lost-card` | `pass` |
+| `monthly-expenses` | `api_error` |
+| `city-expenses` | `pass` |
+| `missing-policy` | `fail` |
+| `sara-balance` | `api_error` |
+| `ambiguous-customer` | `pass` |
+| `persian-opening` | `fail` |
+| `out-of-scope` | `pass` |
+| `no-operations` | `pass` |
+| `persian-transfer` | `fail` |
+| `persian-dispute` | `fail` |
 
-Eight of nine initial answers matched expectations. The Persian opening answer remained incomplete on recheck even though the retrieved evidence contained all required details. The stronger instruction does not guarantee full coverage. Both attempts are retained; HTTP 200 is not treated as a quality pass. The other 13 scenarios have not been evaluated against the live provider in this run.
+## Metric means and coverage
 
-Run `python -m scripts.run_scenarios --list` from the project root to list IDs, or use `--ids` to select cases. The runner overwrites its output file; use `--output` to preserve an earlier capture. Model responses and timings can vary between runs.
+Scores are custom model judgments on a 0–1 scale, not canonical RAGAS metrics. Unavailable scores and infrastructure errors are excluded from metric means; coverage matters when interpreting each mean.
+
+| Metric | Mean | Scored / total |
+| --- | --- | --- |
+| `faithfulness` | 0.542 | 6 / 12 |
+| `completeness` | 0.625 | 10 / 12 |
+| `context_relevance` | 1.000 | 7 / 12 |
+| `answer_relevance` | 0.650 | 10 / 12 |
+| `correctness` | 0.625 | 10 / 12 |
+
+Mean successful assistant latency: 22.984 seconds; p95: 47.900 seconds. Judge latency is excluded. References are the dataset's expected-behavior rubrics; these are not exhaustive human-written gold answers. Ten other dataset scenarios were not attempted in this report. Model judgments require manual review, especially failures and safety cases.
+
+## Reproduce
+
+With the app running and provider credentials configured in `.env`:
+
+```bash
+# List all 22 questions without calling models:
+python -m scripts.run_scenarios --list
+# Fresh evaluation of the same 12 scenario IDs:
+docker compose exec assistant python -m scripts.evaluate_scenarios \
+  --model baseten/mammoth-1:free \
+  --ids account-opening lost-card monthly-expenses city-expenses missing-policy \
+    sara-balance ambiguous-customer persian-opening out-of-scope no-operations \
+    persian-transfer persian-dispute \
+  --output examples/evaluation/new-run.json
+```
+
+Fresh evaluations use the running assistant's model and data; match the recorded candidate configuration for comparisons. Each completed case checkpoints the report. Reusing an output path overwrites it. Review new reports before committing them. Archived capture files were removed; the capture and local-tool scripts still generate their own outputs when invoked.
