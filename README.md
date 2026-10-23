@@ -210,7 +210,7 @@ docker compose exec assistant python -m scripts.evaluate_scenarios \
   --output examples/evaluation/recorded.json
 ```
 
-Each completed scenario checkpoints the JSON report. The selected output is overwritten on each run; choose a different `--output` to preserve runs. Reports include verdict probabilities, available provider usage/cost, pass rates over all cases and judged cases, and mean/p95 successful assistant request latency. Judge latency is excluded. Probabilities are not measured accuracy. Exit code is 0 only when every selected case passes; partial answers, failures and infrastructure errors return 1. Generated reports under `examples/evaluation/` are ignored by Git. Historical captures evaluate their original questions, not the revised question wording.
+Each completed scenario checkpoints the JSON report. The selected output is overwritten on each run; choose a different `--output` to preserve runs. Reports include verdict probabilities, available provider usage/cost, pass rates over all cases and judged cases, and mean/p95 successful assistant request latency. Judge latency is excluded. Probabilities are not measured accuracy. Exit code is 0 only when every selected case passes; partial answers, failures and infrastructure errors return 1. Reviewed reports under `examples/evaluation/` are tracked in Git; check their contents before committing new runs. Historical captures evaluate their original questions, not the revised question wording.
 
 ### View reports in the UI
 

@@ -5,4 +5,3 @@ __pycache__/
 data/*.db
 !data/bank.db
 data/index.json
-examples/evaluation/

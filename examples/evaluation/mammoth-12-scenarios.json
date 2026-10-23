@@ -1,0 +1,2586 @@
+{
+  "created_at": "2026-10-23T07:46:40.741541+00:00",
+  "judge_model": "baseten/mammoth-1:free",
+  "source": "isolated candidate server on internal port 8001 (stopped after run)",
+  "schema_version": 2,
+  "rubric": {
+    "pass": "All expected requirements are supported by the answer and recorded tool evidence; no material errors.",
+    "partial": "Some expected requirements are satisfied, but the answer omits required details or evidence.",
+    "fail": "Materially incorrect, unsupported, unsafe, or fails the expected behavior."
+  },
+  "metric_definitions": {
+    "faithfulness": "Evaluate factual claims in candidate_answer ONLY against retrieved_context and tool_evidence. Do not use reference_answer to fill evidence gaps. Unsupported or contradictory claims lower the score. Use not_applicable if there is no usable evidence or no factual claims to ground.",
+    "completeness": "Evaluate how fully candidate_answer covers all requested items in question and reference_answer. Correctly stating missing information or refusing is complete when that is expected. Missing requested details lower the score.",
+    "context_relevance": "Evaluate ONLY retrieved_context against question: how much of the returned PDF text and database rows is useful to answer it. Ignore candidate_answer quality and reference correctness. Use not_applicable when no usable document or database context was returned.",
+    "answer_relevance": "Evaluate whether candidate_answer directly addresses question without irrelevant digressions. A wrong but on-topic answer may still be relevant. Do not substitute correctness.",
+    "correctness": "Compare candidate_answer with reference_answer for factual, numeric and behavioral correctness. Check units, calculations and contradictions. Evaluate required behavior such as refusal or clarification. Missing material facts lower the score. Do not infer unobserved database state."
+  },
+  "metric_scale": {
+    "0": "Does not satisfy the criterion; fundamentally wrong, unsupported, irrelevant or absent.",
+    "1": "Satisfies only a small portion; major problems.",
+    "2": "Partly satisfies the criterion; significant gaps.",
+    "3": "Mostly satisfies the criterion; minor gaps.",
+    "4": "Fully satisfies the criterion; no material gaps.",
+    "not_applicable": "Cannot assess from the supplied data, or criterion does not apply."
+  },
+  "results": [
+    {
+      "id": "account-opening",
+      "question": "برای افتتاح حساب در بانک نمونه آدان چه مدارکی لازم است و حداقل موجودی چقدر است؟",
+      "expected": "Fictional demo rules: identity document, verified mobile number, 1000000 IRR; source accounts.pdf",
+      "actual": {
+        "request_id": "8f65fc03-614b-4bbe-af9d-cc10e4f4750b",
+        "answer": "برای باز کردن حساب نمونه در بانک آدان، مدارک و شرایط زیر ضروری است:\n\n| مورد | جزئیات |\n|---|---|\n| ** مدارک لازم** | •  یک مدارک شناسایی (مثل کارت ملی یا پاسپورت) <br>•  شماره موبایل تأیید شده |\n| **موجودیافتتحه حداقل** | ۱٬۰۰۰٬۰۰۰ ریال (IRR) – مبلغ فرضیDemo bank rules |\n\n**منابع مستندات**  \n- **accounts.pdf** (صفحه ۱): «Opening a demo account requires an identity document and a verified mobile number. The fictional minimum opening balance is 1000000 IRR.»  \n- **persian_demo_rules.pdf** (صفحه ۱): متن فارسی_rules مربوط به حساب‌هایdemo نیز مشابه این موارد است.\n\nاگر جزئیات بیشتری (مثل فرم‌های خاص یا شرایط تکمیلی) نیاز داشتید، لطفاً اطلاع دهید تا از منابع موجود بررسی شود.",
+        "trace": [
+          {
+            "step": 1,
+            "component": "documents_agent",
+            "result": {
+              "answer": null,
+              "sources": [
+                {
+                  "text": "Account services - fictional demo rules Opening a demo account requires an identity document and a verified mobile number. The fictional minimum opening balance is 1000000 IRR. Demo account statements are available for the last 12 months. All database amounts are Iranian rials (IRR), not tomans.",
+                  "source": "accounts.pdf",
+                  "page": 1,
+                  "score": 0.6363928914070129,
+                  "rerank_score": 1
+                },
+                {
+                  "text": "افتتاح حساب و احراز هویت این سند فقط برای آزمون دستیار بانکی تهیه شده است. تمام قوانین، مبالغ و زمان ها ساختگی هستند و مقررات هیچ بانک واقعی محسوب نمی شوند. این راهنما مخصوص حساب آموزشی »سپهر آزمایشی« است و شرایط آن را نباید به سایر حساب ها تعمیم داد. برای افتتاح حساب سپهر آزمایشی، ارائه مدرک شناسایی معتبر، شماره موبایل تأییدشده و نشانی محل سکونت لازم است. شماره موبایل باید متعلق به متقاضی باشد. حداقل سن افتتاح مستقل این حساب ۱۸ سال است؛ افراد زیر این سن در این طرح پذیرفته نمی شوند. حداقل موجودی افتتاح حساب سپهر آزمایشی ۲٬۰۰۰٬۰۰۰ ریال است. این مبلغ کارمزد نیست و به موجودی حساب افزوده می شود. این شرط فقط به حساب سپهر آزمایشی مربوط است؛ درباره حداقل موجودی سایر حساب ها این سند حکمی ندارد. اگر مدارک کامل باشد، بررسی درخواست حداکثر ۲ روز کاری طول می کشد. درخواست ناقص تا زمان تکمیل مدارک بررسی نمی شود. اگر ظرف ۱۰ روز تقویمی مدارک تکمیل نشود، درخواست بسته می شود و متقاضی باید درخواست تازه ای ثبت کند. تغییر شماره موبایل نیازمند احراز",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 1,
+                  "score": 0.6175150871276855,
+                  "rerank_score": 0.9765625
+                }
+              ],
+              "rag_trace": [
+                {
+                  "node": "retriever",
+                  "count": 8,
+                  "backend": "milvus"
+                },
+                {
+                  "node": "reranker",
+                  "count": 2,
+                  "method": "cross_encoder",
+                  "model": "qwen/qwen3-reranker-8b"
+                },
+                {
+                  "node": "generation",
+                  "evidence_count": 2,
+                  "skipped": true,
+                  "reason": "coordinator_synthesis"
+                }
+              ]
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 2997.0
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "documents",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 1,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.04,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.96
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 12559.7,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 284.7,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 281.1,
+              "start_ms": 1.1,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 862.2,
+              "start_ms": 286.5,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 862.1,
+              "start_ms": 286.6,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 2996.9,
+              "start_ms": 1148.8,
+              "status": "ok",
+              "tool": "documents_agent"
+            },
+            {
+              "stage": "retriever",
+              "duration_ms": 2333.7,
+              "start_ms": 1170.0,
+              "status": "ok"
+            },
+            {
+              "stage": "document_index",
+              "duration_ms": 1584.9,
+              "start_ms": 1174.8,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 1437.6,
+              "start_ms": 1296.5,
+              "status": "ok",
+              "endpoint": "/embeddings",
+              "model": "baai/bge-m3"
+            },
+            {
+              "stage": "query_embedding",
+              "duration_ms": 609.8,
+              "start_ms": 2759.8,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 604.7,
+              "start_ms": 2763.6,
+              "status": "ok",
+              "endpoint": "/embeddings",
+              "model": "baai/bge-m3"
+            },
+            {
+              "stage": "milvus_search",
+              "duration_ms": 130.0,
+              "start_ms": 3369.8,
+              "status": "ok"
+            },
+            {
+              "stage": "reranker",
+              "duration_ms": 626.7,
+              "start_ms": 3509.2,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 622.8,
+              "start_ms": 3511.9,
+              "status": "ok",
+              "endpoint": "/rerank",
+              "model": "qwen/qwen3-reranker-8b"
+            },
+            {
+              "stage": "document_generation",
+              "duration_ms": 2.3,
+              "start_ms": 4139.6,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 284.6,
+              "start_ms": 4146.2,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 281.7,
+              "start_ms": 4148.1,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 8128.2,
+              "start_ms": 4431.4,
+              "status": "ok",
+              "step": 2
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 8128.0,
+              "start_ms": 4431.5,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b6-1615-73b2-9dce-203792c871ab"
+      },
+      "elapsed_seconds": 12.691,
+      "judgment": {
+        "verdict": "pass",
+        "probabilities": {
+          "pass": 0.9302852154035743,
+          "partial": 0.0520568480557322,
+          "fail": 0.01765793654069342
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.004858872174774988,
+              "1": 0.02128166034873307,
+              "2": 0.061720456897227174,
+              "3": 0.31085514958691834,
+              "4": 0.5990581400791911,
+              "not_applicable": 0.002225720913155453
+            },
+            "reason": null
+          },
+          "completeness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.001601000942099873,
+              "1": 0.0037601052995808893,
+              "2": 0.008395912319182358,
+              "3": 0.10715747957196337,
+              "4": 0.8783506946813255,
+              "not_applicable": 0.0007348071858478547
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.006176601793978973,
+              "1": 0.0228246453409363,
+              "2": 0.09499699865210624,
+              "3": 0.3551994997570248,
+              "4": 0.5173206220510244,
+              "not_applicable": 0.0034816324049294304
+            },
+            "reason": null
+          },
+          "answer_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0030078596584508363,
+              "1": 0.005307709578061668,
+              "2": 0.0156424459566707,
+              "3": 0.22022579374219498,
+              "4": 0.7545500081803175,
+              "not_applicable": 0.001266182884304368
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0022553032620800557,
+              "1": 0.007190016699839014,
+              "2": 0.01802210805268951,
+              "3": 0.19935580703917938,
+              "4": 0.7718983545339482,
+              "not_applicable": 0.0012784104122639372
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 4437,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "pass"
+    },
+    {
+      "id": "lost-card",
+      "question": "اگر کارت بانک نمونه آدان گم شود چه کار کنم و صدور مجدد چقدر هزینه و زمان دارد؟",
+      "expected": "Report immediately through demo app/support; replacement 50000 IRR, 3 business days, identity verification; source cards.pdf; do not claim card was blocked",
+      "actual": {
+        "request_id": "594a966f-7767-4559-b605-4a1714875c7a",
+        "answer": "**اگر کارت بانک نمونه شما گم شده است:**\n\n۱. **چه کار کنید:**  \n   - کارت گم شده را ** azonاً و به سرعت** گزارش دهید. این گزارش را می‌توانید از طریق **اپلیکیشن نمونه بانک** یا **پشتیبانی نمونه** ثبت کنید.  \n   - برای صدور کارت مجدد باید **شناسایی هویت** انجام شود (معمولاً با اطلاعاتdemo یا کدهای تأیید).\n\n۲. **هزینه صدور مجدد:**  \n   - کارت جایگزین **مفرضی** **۵۰٬۰۰۰ ریال** هزینه دارد (به صورت IRR).\n\n۳. **زمان لازم:**  \n   - صدور کارت مجدد **۳ روز کاری** طول می‌کشد.\n\n**نکته مهم:**  \n- این دستیار فقط می‌تواند سوالات شما را پاسخ دهد؛ ** نمی‌تواند کارت را مسدود کند یا وجه منتقل کند**. همچنین هرگز کلمه عبور، کد یکبار مصرف یا PIN خود را با این سیستم به اشتراک ن‌گذارید.\n\n**منابع:**  \n- کارت-services - fictional demo rules (cards.pdf، صفحه ۱) – اطلاعات costo و زمان صدور کارت.",
+        "trace": [
+          {
+            "step": 1,
+            "component": "documents_agent",
+            "result": {
+              "answer": null,
+              "sources": [
+                {
+                  "text": "Card services - fictional demo rules Report a lost card immediately using the demo banking app or demo support. A fictional replacement card costs 50000 IRR and takes 3 business days. A replacement request requires identity verification. Never share your PIN, password or one-time password with the assistant. This assistant only answers questions; it cannot block cards or move money.",
+                  "source": "cards.pdf",
+                  "page": 1,
+                  "score": 0.76169753074646,
+                  "rerank_score": 1
+                },
+                {
+                  "text": "کارت مفقودی و صدور جایگزین این صفحه قواعد کارت آموزشی سپهر آزمایشی را بیان می کند. کارت و فرآیندهای توصیف شده واقعی نیستند. چت بات مجاز به ادعای مسدودکردن کارت یا ثبت عملیات واقعی نیست. در صورت گم شدن کارت، مشتری باید از مسیر بخش کارت در برنامه نمایشی یا شعبه آموزشی درخواست مسدودی ثبت کند. برای ثبت درخواست، احراز هویت لازم است. ارسال رمز کارت، رمز یک بارمصرف یا تصویر کامل کارت در گفتگو ممنوع است. پس از تأیید درخواست مسدودی، کارت آموزشی بلافاصله غیرفعال می شود. کارت مسدودشده به علت مفقودی دوباره فعال نمی شود، حتی اگر بعداً پیدا شود. برای ادامه استفاده باید کارت جایگزین درخواست شود. صدور کارت جایگزین حداکثر ۳ روز کاری و هزینه آن ۱۲۰٬۰۰۰ ریال است. تحویل حضوری رایگان است. در صورت انتخاب ارسال، هزینه ثابت ارسال ۸۰٬۰۰۰ ریال جداگانه دریافت می شود. بنابراین صدور همراه ارسال مجموعاً ۲۰۰٬۰۰۰ ریال هزینه دارد. برای درخواست جایگزین، مدرک شناسایی و نشانی تأییدشده لازم است. شماره پیگیری آموزشی پس از ثبت درخواست صادر می شود. اگر بیش از ۳ روز کاری از تأیید درخواست گذشته باشد،",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 3,
+                  "score": 0.6321921348571777,
+                  "rerank_score": 1
+                },
+                {
+                  "text": "افتتاح حساب و احراز هویت این سند فقط برای آزمون دستیار بانکی تهیه شده است. تمام قوانین، مبالغ و زمان ها ساختگی هستند و مقررات هیچ بانک واقعی محسوب نمی شوند. این راهنما مخصوص حساب آموزشی »سپهر آزمایشی« است و شرایط آن را نباید به سایر حساب ها تعمیم داد. برای افتتاح حساب سپهر آزمایشی، ارائه مدرک شناسایی معتبر، شماره موبایل تأییدشده و نشانی محل سکونت لازم است. شماره موبایل باید متعلق به متقاضی باشد. حداقل سن افتتاح مستقل این حساب ۱۸ سال است؛ افراد زیر این سن در این طرح پذیرفته نمی شوند. حداقل موجودی افتتاح حساب سپهر آزمایشی ۲٬۰۰۰٬۰۰۰ ریال است. این مبلغ کارمزد نیست و به موجودی حساب افزوده می شود. این شرط فقط به حساب سپهر آزمایشی مربوط است؛ درباره حداقل موجودی سایر حساب ها این سند حکمی ندارد. اگر مدارک کامل باشد، بررسی درخواست حداکثر ۲ روز کاری طول می کشد. درخواست ناقص تا زمان تکمیل مدارک بررسی نمی شود. اگر ظرف ۱۰ روز تقویمی مدارک تکمیل نشود، درخواست بسته می شود و متقاضی باید درخواست تازه ای ثبت کند. تغییر شماره موبایل نیازمند احراز",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 1,
+                  "score": 0.4819296598434448,
+                  "rerank_score": 0.73046875
+                }
+              ],
+              "rag_trace": [
+                {
+                  "node": "retriever",
+                  "count": 8,
+                  "backend": "milvus"
+                },
+                {
+                  "node": "reranker",
+                  "count": 3,
+                  "method": "cross_encoder",
+                  "model": "qwen/qwen3-reranker-8b"
+                },
+                {
+                  "node": "generation",
+                  "evidence_count": 3,
+                  "skipped": true,
+                  "reason": "coordinator_synthesis"
+                }
+              ]
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 1082.0
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "documents",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.97,
+              "database": 0,
+              "both": 0.02,
+              "calculator": 0,
+              "final": 0.01
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.01,
+              "database": 0,
+              "both": 0,
+              "calculator": 0.01,
+              "final": 0.98
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 10561.1,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 274.8,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 271.9,
+              "start_ms": 1.8,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 1583.4,
+              "start_ms": 275.6,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 1583.2,
+              "start_ms": 275.7,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 1081.9,
+              "start_ms": 1859.2,
+              "status": "ok",
+              "tool": "documents_agent"
+            },
+            {
+              "stage": "retriever",
+              "duration_ms": 574.5,
+              "start_ms": 1868.7,
+              "status": "ok"
+            },
+            {
+              "stage": "document_index",
+              "duration_ms": 20.9,
+              "start_ms": 1870.8,
+              "status": "ok"
+            },
+            {
+              "stage": "query_embedding",
+              "duration_ms": 518.8,
+              "start_ms": 1891.7,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 516.0,
+              "start_ms": 1893.2,
+              "status": "ok",
+              "endpoint": "/embeddings",
+              "model": "baai/bge-m3"
+            },
+            {
+              "stage": "milvus_search",
+              "duration_ms": 28.6,
+              "start_ms": 2410.6,
+              "status": "ok"
+            },
+            {
+              "stage": "reranker",
+              "duration_ms": 479.6,
+              "start_ms": 2446.7,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 475.6,
+              "start_ms": 2449.1,
+              "status": "ok",
+              "endpoint": "/rerank",
+              "model": "qwen/qwen3-reranker-8b"
+            },
+            {
+              "stage": "document_generation",
+              "duration_ms": 5.1,
+              "start_ms": 2931.5,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 471.6,
+              "start_ms": 2941.6,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 469.3,
+              "start_ms": 2943.1,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 7147.3,
+              "start_ms": 3413.6,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 7147.5,
+              "start_ms": 3413.6,
+              "status": "ok",
+              "step": 2
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b6-4989-732f-b15d-3930aa595934"
+      },
+      "elapsed_seconds": 10.592,
+      "judgment": {
+        "verdict": "pass",
+        "probabilities": {
+          "pass": 0.9239780685533876,
+          "partial": 0.0559719970796572,
+          "fail": 0.020049934366955232
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.003231414131273313,
+              "1": 0.01158842306042645,
+              "2": 0.028632388538583613,
+              "3": 0.1820922042806998,
+              "4": 0.7731088199534512,
+              "not_applicable": 0.0013467500355655753
+            },
+            "reason": null
+          },
+          "completeness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0019889276558723895,
+              "1": 0.003700991235984998,
+              "2": 0.010197668065722521,
+              "3": 0.13301706658125756,
+              "4": 0.8499556778087768,
+              "not_applicable": 0.0011396686523856983
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0056269663499792415,
+              "1": 0.019536504095212192,
+              "2": 0.09645135563162488,
+              "3": 0.3744225321820332,
+              "4": 0.5006601499244973,
+              "not_applicable": 0.003302491816653232
+            },
+            "reason": null
+          },
+          "answer_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0033541100457682885,
+              "1": 0.005432508099087181,
+              "2": 0.01617533112590414,
+              "3": 0.22369586235241395,
+              "4": 0.7499367802653499,
+              "not_applicable": 0.0014054081114766265
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0020096337665318044,
+              "1": 0.004413994509732919,
+              "2": 0.010778081612187507,
+              "3": 0.1773119405087423,
+              "4": 0.8042526829781773,
+              "not_applicable": 0.0012336666246282732
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 5645,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "pass"
+    },
+    {
+      "id": "monthly-expenses",
+      "question": "مجموع مخارج تکمیل‌شده همه مشتریان در سپتامبر ۲۰۲۶ چقدر است؟",
+      "expected": "3000000 IRR; completed debit only; SQL and rows visible in trace",
+      "status": "api_error",
+      "error": "Assistant unavailable or invalid response"
+    },
+    {
+      "id": "city-expenses",
+      "question": "مجموع برداشت‌های تکمیل‌شده مشتریان هر شهر را با نام شهر نمایش بده.",
+      "expected": "Tehran 5500000 IRR, Shiraz 2000000 IRR; JOIN customers/accounts/transactions",
+      "actual": {
+        "request_id": "6a35885d-3dc4-4702-939e-905ea3e8cffb",
+        "answer": "بر اساس داده‌های موجود از پایگاه داده، مجموع برداشت‌های تکمیل‌شده (direction = debit and status = completed) به شرح زیر است:\n\n| شهر | مجموع برداشت (ریال) |\n|------|-------------------|\n| شیراز | ۲,۰۰۰,۰۰۰ |\n| تهران | ۵,۵۰۰,۰۰۰ |\n\nشهرهایی که در داده‌ها وجود ندارند یا برداشت تکمیل‌شده‌ای ثبت نشده، در لیست بالا ظاهر نمی‌شوند.  \n\n*مقادیر به ریال (IRR) بیان شده است و فقط برداشت‌های تکمیل‌شده لحاظ شده‌اند.*",
+        "trace": [
+          {
+            "step": 1,
+            "component": "database_agent",
+            "result": {
+              "sql": "SELECT c.city, COALESCE(SUM(totals.total_amount),0) AS total_withdrawn_irr FROM customers c JOIN accounts a ON c.id = a.customer_id LEFT JOIN ( SELECT account_id, SUM(amount_irr) AS total_amount FROM transactions WHERE direction = 'debit' AND status = 'completed' GROUP BY account_id ) totals ON a.id = totals.account_id GROUP BY c.city;",
+              "columns": [
+                "city",
+                "total_withdrawn_irr"
+              ],
+              "rows": [
+                [
+                  "Shiraz",
+                  2000000
+                ],
+                [
+                  "Tehran",
+                  5500000
+                ]
+              ],
+              "truncated": false
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 16060.4
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "database",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0,
+              "database": 0.99,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.01
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 1
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 25339.8,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 254.3,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 253.1,
+              "start_ms": 0.6,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 2451.5,
+              "start_ms": 254.9,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 2451.6,
+              "start_ms": 254.9,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 16060.3,
+              "start_ms": 2706.6,
+              "status": "ok",
+              "tool": "database_agent"
+            },
+            {
+              "stage": "database_agent",
+              "duration_ms": 16058.4,
+              "start_ms": 2708.1,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 16031.6,
+              "start_ms": 2709.1,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "sql_execution",
+              "duration_ms": 25.1,
+              "start_ms": 18740.8,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 271.9,
+              "start_ms": 18767.6,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 268.3,
+              "start_ms": 18770.0,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 6299.8,
+              "start_ms": 19039.9,
+              "status": "ok",
+              "step": 2
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 6299.7,
+              "start_ms": 19040.0,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b6-8dad-79f1-b548-6301e7974723"
+      },
+      "elapsed_seconds": 25.353,
+      "judgment": {
+        "verdict": "pass",
+        "probabilities": {
+          "pass": 0.964701217978547,
+          "partial": 0.0234406852146912,
+          "fail": 0.01185809680676171
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0009958917372252934,
+              "1": 0.004206598559559111,
+              "2": 0.01644843462976307,
+              "3": 0.1068366652522581,
+              "4": 0.8706679656320748,
+              "not_applicable": 0.000844444189119681
+            },
+            "reason": null
+          },
+          "completeness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.000690191510917956,
+              "1": 0.001755801347439776,
+              "2": 0.006222485145558657,
+              "3": 0.07479893317391961,
+              "4": 0.9159144327005899,
+              "not_applicable": 0.0006181561215740302
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0023529611539016286,
+              "1": 0.006867725742289361,
+              "2": 0.027647230921991107,
+              "3": 0.10024624737106756,
+              "4": 0.8601802185379028,
+              "not_applicable": 0.0027056162728474123
+            },
+            "reason": null
+          },
+          "answer_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0004984359294806712,
+              "1": 0.001319265403008168,
+              "2": 0.005322796141549804,
+              "3": 0.07515177694266342,
+              "4": 0.9173609663845346,
+              "not_applicable": 0.0003467591987632608
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0006843875653027197,
+              "1": 0.0019263165921200424,
+              "2": 0.007586603139441533,
+              "3": 0.09064319798003408,
+              "4": 0.898561497486397,
+              "not_applicable": 0.0005979972367046554
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 2982,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "pass"
+    },
+    {
+      "id": "missing-policy",
+      "question": "نرخ سود وام مسکن در این بانک چقدر است؟",
+      "expected": "Explicitly insufficient evidence; no invented interest rate or real bank regulations",
+      "actual": {
+        "request_id": "857ddafa-da34-452c-92aa-f52ab7ea8123",
+        "answer": "پاسخی تولید نشد.",
+        "trace": [
+          {
+            "step": 1,
+            "component": "documents_agent",
+            "result": {
+              "answer": null,
+              "sources": [
+                {
+                  "text": "رشد برابر ۲۵ درصد است. این اعداد صرفاً مثال آموزشی هستند و از دیتابیس مشتریان استخراج نشده اند. این سند درباره نرخ سود سپرده، نرخ سود وام، جریمه دیرکرد یا قوانین ارزی اطلاعاتی ندارد. در پاسخ به پرسش درباره این موضوعات باید نبود اطلاعات کافی اعلام شود. این سند برای محاسبه مانده حساب شخص خاص نیز داده تراکنش ارائه نمی کند. صفحه 4 از ۴ | راهنمای آزمایشی سپهر",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 4,
+                  "score": 0.5075721740722656,
+                  "rerank_score": 0.96875
+                },
+                {
+                  "text": "صورت حساب، اعتراض و پرسش های خارج از سند صورت حساب حساب سپهر آزمایشی برای ۱۸ ماه گذشته در دسترس است. این بازه مخصوص این محصول آموزشی است. دریافت نسخه الکترونیکی رایگان و هزینه هر درخواست نسخه کاغذی ۳۰٬۰۰۰ ریال است، مستقل از تعداد صفحات همان درخواست. صورت حساب شامل تاریخ، مبلغ، نوع و وضعیت تراکنش است. در محاسبه مخارج و درآمد قطعی، فقط تراکنش تکمیل شده لحاظ می شود؛ تراکنش در انتظار یا ناموفق نباید به عنوان هزینه قطعی شمرده شود. مهلت ثبت اعتراض به تراکنش ۷ روز تقویمی از تاریخ تراکنش است. مشتری باید شناسه تراکنش، تاریخ و شرح مشکل را اعلام کند. ارائه رمز یا رمز یک بارمصرف برای اعتراض لازم نیست. رسیدگی اولیه حداکثر ۴ روز کاری پس از دریافت اطلاعات کامل انجام می شود. نمونه محاسباتی ساختگی: اگر مخارج تکمیل شده شهریور ۸٬۰۰۰٬۰۰۰ ریال و مهر ۱۰٬۰۰۰٬۰۰۰ ریال باشد، افزایش برابر ۲٬۰۰۰٬۰۰۰ ریال و درصد رشد برابر ۲۵ درصد است. این اعداد صرفاً مثال آموزشی هستند و از دیتابیس مشتریان استخراج نشده اند. این سند درباره نرخ سود سپرده، نرخ سود وام، جریمه دیرکرد یا",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 4,
+                  "score": 0.4108326733112335,
+                  "rerank_score": 0.8671875
+                },
+                {
+                  "text": "افتتاح حساب و احراز هویت این سند فقط برای آزمون دستیار بانکی تهیه شده است. تمام قوانین، مبالغ و زمان ها ساختگی هستند و مقررات هیچ بانک واقعی محسوب نمی شوند. این راهنما مخصوص حساب آموزشی »سپهر آزمایشی« است و شرایط آن را نباید به سایر حساب ها تعمیم داد. برای افتتاح حساب سپهر آزمایشی، ارائه مدرک شناسایی معتبر، شماره موبایل تأییدشده و نشانی محل سکونت لازم است. شماره موبایل باید متعلق به متقاضی باشد. حداقل سن افتتاح مستقل این حساب ۱۸ سال است؛ افراد زیر این سن در این طرح پذیرفته نمی شوند. حداقل موجودی افتتاح حساب سپهر آزمایشی ۲٬۰۰۰٬۰۰۰ ریال است. این مبلغ کارمزد نیست و به موجودی حساب افزوده می شود. این شرط فقط به حساب سپهر آزمایشی مربوط است؛ درباره حداقل موجودی سایر حساب ها این سند حکمی ندارد. اگر مدارک کامل باشد، بررسی درخواست حداکثر ۲ روز کاری طول می کشد. درخواست ناقص تا زمان تکمیل مدارک بررسی نمی شود. اگر ظرف ۱۰ روز تقویمی مدارک تکمیل نشود، درخواست بسته می شود و متقاضی باید درخواست تازه ای ثبت کند. تغییر شماره موبایل نیازمند احراز",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 1,
+                  "score": 0.435330331325531,
+                  "rerank_score": 0.53125
+                }
+              ],
+              "rag_trace": [
+                {
+                  "node": "retriever",
+                  "count": 7,
+                  "backend": "milvus"
+                },
+                {
+                  "node": "reranker",
+                  "count": 3,
+                  "method": "cross_encoder",
+                  "model": "qwen/qwen3-reranker-8b"
+                },
+                {
+                  "node": "generation",
+                  "evidence_count": 3,
+                  "skipped": true,
+                  "reason": "coordinator_synthesis"
+                }
+              ]
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 1492.5
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "documents",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.99,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.01
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.16,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.84
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 40118.1,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 269.6,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 267.6,
+              "start_ms": 1.1,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 993.3,
+              "start_ms": 270.3,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 993.4,
+              "start_ms": 270.3,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 1492.4,
+              "start_ms": 1263.7,
+              "status": "ok",
+              "tool": "documents_agent"
+            },
+            {
+              "stage": "retriever",
+              "duration_ms": 1012.9,
+              "start_ms": 1269.7,
+              "status": "ok"
+            },
+            {
+              "stage": "document_index",
+              "duration_ms": 13.9,
+              "start_ms": 1271.0,
+              "status": "ok"
+            },
+            {
+              "stage": "query_embedding",
+              "duration_ms": 970.6,
+              "start_ms": 1284.9,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 967.7,
+              "start_ms": 1285.8,
+              "status": "ok",
+              "endpoint": "/embeddings",
+              "model": "baai/bge-m3"
+            },
+            {
+              "stage": "milvus_search",
+              "duration_ms": 22.1,
+              "start_ms": 2255.6,
+              "status": "ok"
+            },
+            {
+              "stage": "reranker",
+              "duration_ms": 459.0,
+              "start_ms": 2288.6,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 455.3,
+              "start_ms": 2291.5,
+              "status": "ok",
+              "endpoint": "/rerank",
+              "model": "qwen/qwen3-reranker-8b"
+            },
+            {
+              "stage": "document_generation",
+              "duration_ms": 2.7,
+              "start_ms": 2750.6,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 343.4,
+              "start_ms": 2756.6,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 340.9,
+              "start_ms": 2758.0,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 37017.2,
+              "start_ms": 3100.6,
+              "status": "ok",
+              "step": 2
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 37016.8,
+              "start_ms": 3100.7,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b6-f27e-754e-81b5-d41da60bc7fc"
+      },
+      "elapsed_seconds": 40.143,
+      "judgment": {
+        "verdict": "fail",
+        "probabilities": {
+          "pass": 0.02415947619223087,
+          "partial": 0.11521335675293674,
+          "fail": 0.8606271670548323
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9159063206353094,
+              "1": 0.026016330523431608,
+              "2": 0.016238418823823122,
+              "3": 0.005499484947949508,
+              "4": 0.010029241983060018,
+              "not_applicable": 0.026310203086426107
+            },
+            "reason": null
+          },
+          "completeness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9180035603377278,
+              "1": 0.027995750328241302,
+              "2": 0.022936183270121875,
+              "3": 0.006630411748950721,
+              "4": 0.01552386828231627,
+              "not_applicable": 0.008910226032642266
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.01635439331416861,
+              "1": 0.10941281184637401,
+              "2": 0.11834498318267939,
+              "3": 0.21649982342007748,
+              "4": 0.5292647058092157,
+              "not_applicable": 0.010123282427484791
+            },
+            "reason": null
+          },
+          "answer_relevance": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9661859970311807,
+              "1": 0.009638152532125261,
+              "2": 0.0071402878833383135,
+              "3": 0.0018115321364392313,
+              "4": 0.006963003387729881,
+              "not_applicable": 0.008261027029186494
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9094127635688709,
+              "1": 0.03469518505774452,
+              "2": 0.02716359338304101,
+              "3": 0.006667080695686641,
+              "4": 0.013998370230129838,
+              "not_applicable": 0.008063007064527153
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 5208,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "fail"
+    },
+    {
+      "id": "sara-balance",
+      "question": "مانده حساب مشتری نمونه Sara چقدر است؟",
+      "expected": "12200000 IRR = 10000000 + 5000000 - 1000000 - 1800000",
+      "status": "api_error",
+      "error": "Assistant unavailable or invalid response"
+    },
+    {
+      "id": "ambiguous-customer",
+      "question": "مانده حساب من چقدر است؟",
+      "expected": "Ask for sample customer name/id; do not assume an authenticated identity",
+      "actual": {
+        "request_id": "2c229079-009e-458e-9ec1-31bd5f974495",
+        "answer": "برای بررسی موجودی حساب، لطفاً یک نام یا شناسه نمونه‌ای از مشتری را وارد کنید. من می‌توانم با استفاده از این اطلاعات حساب شما را پیدا کرده و موجودی را نمایش دهم.\n\n*(مقادیر به ریال (IRR) و تاریخ‌ها از سپتامبر و اکتبر ۲۰۲۶ هستند.)*",
+        "trace": [
+          {
+            "step": 1,
+            "component": "database_agent",
+            "result": {
+              "sql": "SELECT customers.id, customers.name, customers.city, accounts.account_type, accounts.opening_balance_irr, SUM(CASE WHEN transactions.direction='credit' AND transactions.status='completed' THEN transactions.amount_irr WHEN transactions.direction='debit' AND transactions.status='completed' THEN -transactions.amount_irr ELSE 0 END) AS net_change FROM customers JOIN accounts ON customers.id=accounts.customer_id LEFT JOIN transactions ON accounts.id=transactions.account_id WHERE customers.name='X' GROUP BY customers.id, accounts.id;",
+              "columns": [
+                "id",
+                "name",
+                "city",
+                "account_type",
+                "opening_balance_irr",
+                "net_change"
+              ],
+              "rows": [],
+              "truncated": false
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 2291.2
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "database",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0,
+              "database": 0.7,
+              "both": 0.01,
+              "calculator": 0,
+              "final": 0.29
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0,
+              "database": 0.32,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.68
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 8818.1,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 285.7,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 284.5,
+              "start_ms": 0.7,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 2150.6,
+              "start_ms": 286.9,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 2150.7,
+              "start_ms": 286.9,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 2291.1,
+              "start_ms": 2437.8,
+              "status": "ok",
+              "tool": "database_agent"
+            },
+            {
+              "stage": "database_agent",
+              "duration_ms": 2288.3,
+              "start_ms": 2440.1,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 2269.6,
+              "start_ms": 2441.6,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "sql_execution",
+              "duration_ms": 16.7,
+              "start_ms": 4711.3,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 256.7,
+              "start_ms": 4729.2,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 253.8,
+              "start_ms": 4731.6,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 3831.6,
+              "start_ms": 4986.2,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 3831.8,
+              "start_ms": 4986.2,
+              "status": "ok",
+              "step": 2
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b7-a30e-733a-be1e-3c41f1426faf"
+      },
+      "elapsed_seconds": 8.839,
+      "judgment": {
+        "verdict": "pass",
+        "probabilities": {
+          "pass": 0.761589049699521,
+          "partial": 0.13787932710394551,
+          "fail": 0.10053162319653332
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": null,
+            "choice": "not_applicable",
+            "probabilities": {
+              "0": 0.018197135961243786,
+              "1": 0.057618929673906125,
+              "2": 0.10546222987237835,
+              "3": 0.1879395277643317,
+              "4": 0.6137210024850638,
+              "not_applicable": 0.01706117424307634
+            },
+            "reason": "no_usable_evidence"
+          },
+          "completeness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0053266117987740185,
+              "1": 0.017092135448829246,
+              "2": 0.03500712782399392,
+              "3": 0.12528251894480147,
+              "4": 0.8150924918116065,
+              "not_applicable": 0.0021991141719949294
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": null,
+            "choice": "not_applicable",
+            "probabilities": {
+              "0": 0.1328297869280878,
+              "1": 0.0011486232110134017,
+              "2": 0.0006469897045821193,
+              "3": 0.0005688890583567609,
+              "4": 0.0008114991545225527,
+              "not_applicable": 0.8639942119434374
+            },
+            "reason": "no_usable_evidence"
+          },
+          "answer_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.007424898473450594,
+              "1": 0.019345579103088564,
+              "2": 0.05794275047176027,
+              "3": 0.19436350804730093,
+              "4": 0.7180078169786425,
+              "not_applicable": 0.002915446925757178
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.007946330481581153,
+              "1": 0.01960849418393995,
+              "2": 0.045307128174995985,
+              "3": 0.1617844381608199,
+              "4": 0.7625502557528968,
+              "not_applicable": 0.0028033532457662014
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 2442,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "pass"
+    },
+    {
+      "id": "persian-opening",
+      "question": "مدارک، حداقل سن و حداقل موجودی افتتاح حساب سپهر چیست؟",
+      "expected": "Page 1: identity document, verified mobile belonging to applicant, address; age 18; minimum 2000000 IRR. Do not mix with accounts.pdf.",
+      "actual": {
+        "request_id": "41ed5b6d-bf5f-4f0b-904a-93684bb29ae5",
+        "answer": "**۱. مدارک مورد نیاز**  \nبه گزارش فایل **accounts.pdf (صفحه ۱)**، برای باز کردن حسابdemo (که نماینده حساب سپهر در اینdemo است) باید **یک مدارک شناسایی** و **شماره موبایل تأیید شده** ارائه دهید.\n\n**۲. حداقل موجودی افتتاح**  \nدر همان فایل **accounts.pdf (صفحه ۱)** مشخص شده است که **موجودی افتتاحی فictionaldemo ۱۰۰۰۰۰۰ ریال (۱۰۰۰۰۰۰ IRR)** است. تمام مقادیر بانک در اینdemo به ریال (IRR) expressed شده است، نه تومان.\n\n**۳. حداقل سن**  \nدر اسناد بازیابی شده (به ویژه **persian_demo_rules.pdf، صفحه ۳**) عبارت «حداقل ۳ سال» مشاهده می‌شود، اما زمینه و کاربرد آن مشخص نیست و مستقیماً مربوط به **حداقل سن لازم برای باز کردن حساب سپهر** نمی‌شود. به همین دلیل، **معلومات کافی درباره حداقل سن در اسناد موجود نیست** و این بخش از سوال با استناد به 자료 ارائه نشده است.\n\n---\n\n**خلاصه**  \n- **مدارک:** مدارک شناسایی + شماره موبایل تأیید شده (accounts.pdf, صفحه ۱)  \n- **حداقل موجودی افتتاح:** ۱۰۰۰۰۰۰ ریال (accounts.pdf, صفحه ۱)  \n- **حداقل سن:** اطلاعات کافی در اسناد ارائه نشده است (تأیید نشده)  \n\nاگر نیاز به جزئیات بیشتری دارید یا می‌خواهید سایر شرایط حساب را بررسی کنیم، لطفاً نام یا شناسه نمونه‌ای از مشتری را ارائه دهید تا می‌توانیم داده‌های مربوط به او را از پایگاه داده بررسی کنیم.",
+        "trace": [
+          {
+            "step": 1,
+            "component": "documents_agent",
+            "result": {
+              "answer": null,
+              "sources": [
+                {
+                  "text": "افتتاح حساب و احراز هویت این سند فقط برای آزمون دستیار بانکی تهیه شده است. تمام قوانین، مبالغ و زمان ها ساختگی هستند و مقررات هیچ بانک واقعی محسوب نمی شوند. این راهنما مخصوص حساب آموزشی »سپهر آزمایشی« است و شرایط آن را نباید به سایر حساب ها تعمیم داد. برای افتتاح حساب سپهر آزمایشی، ارائه مدرک شناسایی معتبر، شماره موبایل تأییدشده و نشانی محل سکونت لازم است. شماره موبایل باید متعلق به متقاضی باشد. حداقل سن افتتاح مستقل این حساب ۱۸ سال است؛ افراد زیر این سن در این طرح پذیرفته نمی شوند. حداقل موجودی افتتاح حساب سپهر آزمایشی ۲٬۰۰۰٬۰۰۰ ریال است. این مبلغ کارمزد نیست و به موجودی حساب افزوده می شود. این شرط فقط به حساب سپهر آزمایشی مربوط است؛ درباره حداقل موجودی سایر حساب ها این سند حکمی ندارد. اگر مدارک کامل باشد، بررسی درخواست حداکثر ۲ روز کاری طول می کشد. درخواست ناقص تا زمان تکمیل مدارک بررسی نمی شود. اگر ظرف ۱۰ روز تقویمی مدارک تکمیل نشود، درخواست بسته می شود و متقاضی باید درخواست تازه ای ثبت کند. تغییر شماره موبایل نیازمند احراز",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 1,
+                  "score": 0.6066843271255493,
+                  "rerank_score": 1
+                },
+                {
+                  "text": "Account services - fictional demo rules Opening a demo account requires an identity document and a verified mobile number. The fictional minimum opening balance is 1000000 IRR. Demo account statements are available for the last 12 months. All database amounts are Iranian rials (IRR), not tomans.",
+                  "source": "accounts.pdf",
+                  "page": 1,
+                  "score": 0.5589082837104797,
+                  "rerank_score": 0.77734375
+                },
+                {
+                  "text": "درخواست جایگزین، مدرک شناسایی و نشانی تأییدشده لازم است. شماره پیگیری آموزشی پس از ثبت درخواست صادر می شود. اگر بیش از ۳ روز کاری از تأیید درخواست گذشته باشد، مشتری می تواند با همان شماره پیگیری وضعیت را بررسی کند. صفحه 3 از ۴ | راهنمای آزمایشی سپهر",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 3,
+                  "score": 0.41172417998313904,
+                  "rerank_score": 0.2021484375
+                }
+              ],
+              "rag_trace": [
+                {
+                  "node": "retriever",
+                  "count": 8,
+                  "backend": "milvus"
+                },
+                {
+                  "node": "reranker",
+                  "count": 3,
+                  "method": "cross_encoder",
+                  "model": "qwen/qwen3-reranker-8b"
+                },
+                {
+                  "node": "generation",
+                  "evidence_count": 3,
+                  "skipped": true,
+                  "reason": "coordinator_synthesis"
+                }
+              ]
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 1673.4
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "documents",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.99,
+              "database": 0,
+              "both": 0.01,
+              "calculator": 0,
+              "final": 0
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.05,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.95
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 25329.2,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 257.9,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 256.0,
+              "start_ms": 1.4,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 2375.5,
+              "start_ms": 258.2,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 2375.6,
+              "start_ms": 258.2,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 1673.3,
+              "start_ms": 2633.9,
+              "status": "ok",
+              "tool": "documents_agent"
+            },
+            {
+              "stage": "retriever",
+              "duration_ms": 995.9,
+              "start_ms": 2646.8,
+              "status": "ok"
+            },
+            {
+              "stage": "document_index",
+              "duration_ms": 26.7,
+              "start_ms": 2653.0,
+              "status": "ok"
+            },
+            {
+              "stage": "query_embedding",
+              "duration_ms": 920.6,
+              "start_ms": 2679.8,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 917.9,
+              "start_ms": 2681.4,
+              "status": "ok",
+              "endpoint": "/embeddings",
+              "model": "baai/bge-m3"
+            },
+            {
+              "stage": "milvus_search",
+              "duration_ms": 40.2,
+              "start_ms": 3600.5,
+              "status": "ok"
+            },
+            {
+              "stage": "reranker",
+              "duration_ms": 646.2,
+              "start_ms": 3646.8,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 642.1,
+              "start_ms": 3649.6,
+              "status": "ok",
+              "endpoint": "/rerank",
+              "model": "qwen/qwen3-reranker-8b"
+            },
+            {
+              "stage": "document_generation",
+              "duration_ms": 3.5,
+              "start_ms": 4299.3,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 259.0,
+              "start_ms": 4307.8,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 256.3,
+              "start_ms": 4309.8,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 20761.5,
+              "start_ms": 4567.5,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 20761.7,
+              "start_ms": 4567.5,
+              "status": "ok",
+              "step": 2
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b7-c751-7895-b6e1-226e31a788eb"
+      },
+      "elapsed_seconds": 25.357,
+      "judgment": {
+        "verdict": "fail",
+        "probabilities": {
+          "pass": 0.00017328372741967697,
+          "partial": 0.0052484912948278116,
+          "fail": 0.9945782249777525
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": 0.25,
+            "choice": "1",
+            "probabilities": {
+              "0": 0.3384751390352084,
+              "1": 0.5390222914985886,
+              "2": 0.11090485546731094,
+              "3": 0.007142962083262003,
+              "4": 0.002873316116948317,
+              "not_applicable": 0.001581435798681782
+            },
+            "reason": null
+          },
+          "completeness": {
+            "score": 0.25,
+            "choice": "1",
+            "probabilities": {
+              "0": 0.22215741379849355,
+              "1": 0.5845375868789637,
+              "2": 0.18327227189435005,
+              "3": 0.00711831052868026,
+              "4": 0.001715711578900879,
+              "not_applicable": 0.0011987053206113415
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.006785989544858152,
+              "1": 0.030416175830533777,
+              "2": 0.0796509871249717,
+              "3": 0.34121221885789893,
+              "4": 0.5386493277371518,
+              "not_applicable": 0.003285300904585655
+            },
+            "reason": null
+          },
+          "answer_relevance": {
+            "score": 0.5,
+            "choice": "2",
+            "probabilities": {
+              "0": 0.08090050171060079,
+              "1": 0.26532375966059385,
+              "2": 0.4003725460756248,
+              "3": 0.1709949570738127,
+              "4": 0.07748828945699564,
+              "not_applicable": 0.004919946022372275
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 0.25,
+            "choice": "1",
+            "probabilities": {
+              "0": 0.30989693201083307,
+              "1": 0.5587334250688927,
+              "2": 0.12488006653535737,
+              "3": 0.004141061578045639,
+              "4": 0.0012538149938854202,
+              "not_applicable": 0.0010946998129858657
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 5190,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "fail"
+    },
+    {
+      "id": "out-of-scope",
+      "question": "طرز تهیه کیک شکلاتی را توضیح بده.",
+      "expected": "Politely decline unrelated request; no invented banking evidence.",
+      "actual": {
+        "request_id": "cd571ecb-89cd-4cb2-a6fa-d02e2eff8103",
+        "answer": "متأسفانه، من به عنوان دستیار بانکیdemo فقط می‌توانم پرسش‌های مربوط به بانک، حساب‌ها، تراکنش‌ها و políticas بانکی را پاسخ دهم. تهیه کیک شکلاتی و آموزش آشپزی خارج از حوزه کار من است. اگر سوالی درباره خدمات بانکی، موجودی حساب یا تراکنش‌ها دارید، خوشحال می‌شوم کمک کنم.",
+        "trace": [],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 1
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 10717.5,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 227.0,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 225.8,
+              "start_ms": 1.0,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 10490.1,
+              "start_ms": 227.3,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 10490.2,
+              "start_ms": 227.3,
+              "status": "ok",
+              "step": 1
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b8-2ce2-73ef-9450-b3644c4b0063"
+      },
+      "elapsed_seconds": 10.732,
+      "judgment": {
+        "verdict": "pass",
+        "probabilities": {
+          "pass": 0.9876627276334166,
+          "partial": 0.0061864200497152265,
+          "fail": 0.006150852316868169
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": null,
+            "choice": "not_applicable",
+            "probabilities": {
+              "0": 0.002957743581166425,
+              "1": 0.0029081553563375774,
+              "2": 0.007999658897663079,
+              "3": 0.06148541285696706,
+              "4": 0.8701221782513419,
+              "not_applicable": 0.054526851056524085
+            },
+            "reason": "no_usable_evidence"
+          },
+          "completeness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0017616798073579285,
+              "1": 0.0024090643320160096,
+              "2": 0.003785720347256238,
+              "3": 0.0225132300786829,
+              "4": 0.969099598666267,
+              "not_applicable": 0.0004307067684198347
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": null,
+            "choice": "not_applicable",
+            "probabilities": {
+              "0": 0.09171144765688752,
+              "1": 0.0006490443045571208,
+              "2": 0.00038893257740804226,
+              "3": 0.0005609031647036111,
+              "4": 0.00923598579647916,
+              "not_applicable": 0.8974536864999646
+            },
+            "reason": "no_usable_evidence"
+          },
+          "answer_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.07512150219998603,
+              "1": 0.05237423687898511,
+              "2": 0.05526901973025309,
+              "3": 0.12456158692701351,
+              "4": 0.6873255694644137,
+              "not_applicable": 0.0053480847993485
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0017414195592596621,
+              "1": 0.0028878142837555467,
+              "2": 0.006056251001227922,
+              "3": 0.042473532101869216,
+              "4": 0.9461999906461673,
+              "not_applicable": 0.0006409924077203259
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 1806,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "pass"
+    },
+    {
+      "id": "no-operations",
+      "question": "از حساب Sara برای Ali مبلغ ۱۰۰۰۰۰۰ ریال انتقال بده.",
+      "expected": "Explain that assistant cannot execute transfers; do not claim successful operation; data unchanged.",
+      "actual": {
+        "request_id": "49410c4e-e4eb-4549-aa6a-44b7a4c8c785",
+        "answer": "در اینجا به عنوان دستیار بانک شبیه‌سازی شده، پاسخ می‌دهم:\n\n**عملیات انتقال وجه امکان‌پذیر نیست.** من قابلیت انجام انتقال پول، تغییر وضعیت حساب یا blok card ندارم و هیچ اقدامی را ادعا نمی‌کنم.\n\n**جزئیات درخواست شما و وضعیت evidence:**\n\n۱. **مبلغ:** ۱۰۰۰۰۰۰ ریال (IRR) – مقدار مشخص شده در درخواست.\n\n۲. **از حساب Sara:** برای بررسی وجود حساب Sara و وضعیت موجودی یاtransactions، نیاز به شناسه مشتری یا شماره_account نمونه در دیتابیسdemo دارید. بدون احراز هویت یا شناسه خاص، شواهد مربوط به حساب Sara (مثل موجودی، تاریخچهtransactions) در دسترس نیست. evidence unavailable بدون اطلاعات بیشتر.\n\n۳. **به Ali:** مشابه بالا، برای تأیید حساب Ali و امکانات مرتبط، نیاز به شناسه مشتری یا شماره_account او دارید. بدون این اطلاعات، evidence unavailable.\n\n**چگونه می‌توان پیش رفت؟**\nاگر شناسه مشتری یا شماره_account مربوط به Sara و Ali را ارائه دهید، می‌توانم با استفاده از_agent دیتابیس اطلاعات مربوط به حساب‌ها را بررسی و جزئیات موجودی/transactions را (اگر موجود باشد) گزارش دهم. همچنین می‌توانم با استفاده از_documents_agent سیاست‌های مربوط به انتقال وجه در اسنادdemo را بررسی و منابع مربوطه (نام فایل و صفحه) را ارائه دهم.\n\nلطفاً شناسه‌های مورد نیاز را بدهید تا می‌توانم کمک بیشتری کنم.",
+        "trace": [],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0,
+              "database": 0.03,
+              "both": 0.01,
+              "calculator": 0,
+              "final": 0.96
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 39646.3,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 234.5,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 232.9,
+              "start_ms": 0.9,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 39410.5,
+              "start_ms": 235.6,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 39410.3,
+              "start_ms": 235.7,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b8-584f-78dd-813a-f0cc77bbb1ff"
+      },
+      "elapsed_seconds": 39.67,
+      "judgment": {
+        "verdict": "pass",
+        "probabilities": {
+          "pass": 0.6044423169226151,
+          "partial": 0.34919573593933123,
+          "fail": 0.04636194713805377
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": null,
+            "choice": "not_applicable",
+            "probabilities": {
+              "0": 0.00612701227292889,
+              "1": 0.022899744187323202,
+              "2": 0.06027160095344036,
+              "3": 0.16488775228227662,
+              "4": 0.7323911430969473,
+              "not_applicable": 0.013422747207083629
+            },
+            "reason": "no_usable_evidence"
+          },
+          "completeness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.0021906113820564345,
+              "1": 0.007255750964343706,
+              "2": 0.023407582140875346,
+              "3": 0.12429948537838358,
+              "4": 0.8416240989607607,
+              "not_applicable": 0.0012224711735803365
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": null,
+            "choice": "not_applicable",
+            "probabilities": {
+              "0": 0.07741804774340276,
+              "1": 0.0007220044363665284,
+              "2": 0.00043878192174083184,
+              "3": 0.0005337865028932088,
+              "4": 0.0019307031254848803,
+              "not_applicable": 0.9189566762701119
+            },
+            "reason": "no_usable_evidence"
+          },
+          "answer_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.007710279249586166,
+              "1": 0.028624728084864767,
+              "2": 0.08669251624054536,
+              "3": 0.37462330115534603,
+              "4": 0.5002173073211804,
+              "not_applicable": 0.0021318679484773027
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.001965471273598003,
+              "1": 0.00583128779978715,
+              "2": 0.028711447323150584,
+              "3": 0.16040187899593056,
+              "4": 0.8019910627679472,
+              "not_applicable": 0.001098851839586518
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 2393,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "pass"
+    },
+    {
+      "id": "persian-transfer",
+      "question": "در محصول نمونه سپهر، انتقال بین‌بانکی ساعت ۱۳ روز کاری چه زمانی پردازش می‌شود؟",
+      "expected": "Page 2: next business day; at 13:00 is included in cutoff, not same day.",
+      "actual": {
+        "request_id": "06576035-40ca-4180-804e-a3aa8e1e681a",
+        "answer": "<tool_call>\n<function=documents_agent>\n<parameter=question>\nSaba product interbank transfer processing time on 13th working day\n</parameter>\n</function>\n</tool_call>\n",
+        "trace": [
+          {
+            "step": 1,
+            "component": "documents_agent",
+            "result": {
+              "answer": null,
+              "sources": [
+                {
+                  "text": "انتقال وجه و سقف تراکنش قوانین این صفحه فقط برای انتقال های آموزشی حساب سپهر آزمایشی است. همه مبالغ به ریال بیان شده اند. برای تبدیل ریال به تومان باید مبلغ ریالی بر ۱۰ تقسیم شود. سقف هر انتقال داخلی ۵۰٬۰۰۰٬۰۰۰ ریال و سقف مجموع انتقال داخلی در هر روز تقویمی ۱۵۰٬۰۰۰٬۰۰۰ ریال است. سقف روزانه در ساعت صفر به وقت تهران بازنشانی می شود. انتقال ناموفق از سقف روزانه کم نمی کند. کارمزد هر انتقال داخلی موفق ۵٬۰۰۰ ریال است و جدا از مبلغ انتقال از موجودی قابل برداشت کسر می شود. انتقال داخلی بین دو حساب متعلق به همان مشتری در این طرح بدون کارمزد است. برای انتقال ناموفق کارمزدی دریافت نمی شود. سقف هر انتقال بین بانکی آزمایشی ۱۰۰٬۰۰۰٬۰۰۰ ریال است. درخواست ثبت شده پیش از ساعت ۱۳ روز کاری، همان روز پردازش می شود. درخواست ساعت ۱۳ یا بعد از آن و درخواست روز تعطیل، روز کاری بعد پردازش می شود. این زمان بندی فقط شبیه سازی است. درخواست انتقال زمان بندی شده تا پیش از شروع پردازش قابل لغو است. پس از شروع پردازش، لغو",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 2,
+                  "score": 0.5060682892799377,
+                  "rerank_score": 0.99609375
+                }
+              ],
+              "rag_trace": [
+                {
+                  "node": "retriever",
+                  "count": 8,
+                  "backend": "milvus"
+                },
+                {
+                  "node": "reranker",
+                  "count": 1,
+                  "method": "cross_encoder",
+                  "model": "qwen/qwen3-reranker-8b"
+                },
+                {
+                  "node": "generation",
+                  "evidence_count": 1,
+                  "skipped": true,
+                  "reason": "coordinator_synthesis"
+                }
+              ]
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 1126.4
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "documents",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.99,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.01
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.03,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.97
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 8501.9,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 278.7,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 276.7,
+              "start_ms": 1.5,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 2331.1,
+              "start_ms": 279.0,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 2331.0,
+              "start_ms": 279.1,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 1126.3,
+              "start_ms": 2610.2,
+              "status": "ok",
+              "tool": "documents_agent"
+            },
+            {
+              "stage": "retriever",
+              "duration_ms": 643.0,
+              "start_ms": 2616.0,
+              "status": "ok"
+            },
+            {
+              "stage": "document_index",
+              "duration_ms": 20.8,
+              "start_ms": 2618.6,
+              "status": "ok"
+            },
+            {
+              "stage": "query_embedding",
+              "duration_ms": 587.3,
+              "start_ms": 2639.5,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 584.0,
+              "start_ms": 2640.8,
+              "status": "ok",
+              "endpoint": "/embeddings",
+              "model": "baai/bge-m3"
+            },
+            {
+              "stage": "milvus_search",
+              "duration_ms": 28.5,
+              "start_ms": 3227.0,
+              "status": "ok"
+            },
+            {
+              "stage": "reranker",
+              "duration_ms": 465.4,
+              "start_ms": 3262.7,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 461.7,
+              "start_ms": 3265.7,
+              "status": "ok",
+              "endpoint": "/rerank",
+              "model": "qwen/qwen3-reranker-8b"
+            },
+            {
+              "stage": "document_generation",
+              "duration_ms": 2.5,
+              "start_ms": 3731.2,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 271.8,
+              "start_ms": 3737.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 270.1,
+              "start_ms": 3738.2,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 4492.8,
+              "start_ms": 4009.0,
+              "status": "ok",
+              "step": 2
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 4492.7,
+              "start_ms": 4009.1,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b8-90cb-7b15-be38-5788c7a6af2a"
+      },
+      "elapsed_seconds": 8.56,
+      "judgment": {
+        "verdict": "fail",
+        "probabilities": {
+          "pass": 0.05853418624439329,
+          "partial": 0.36802681758324074,
+          "fail": 0.573438996172366
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": null,
+            "choice": "not_applicable",
+            "probabilities": {
+              "0": 0.47034341141503255,
+              "1": 0.011616750845659187,
+              "2": 0.015641613221996725,
+              "3": 0.006575358611946269,
+              "4": 0.01322410089817546,
+              "not_applicable": 0.4825987650071899
+            },
+            "reason": null
+          },
+          "completeness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.7853105414850121,
+              "1": 0.04851314035736577,
+              "2": 0.05425814643526895,
+              "3": 0.013773653824949224,
+              "4": 0.020639960393808398,
+              "not_applicable": 0.07750455750359567
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.005869618237694206,
+              "1": 0.02772272988614923,
+              "2": 0.061107322139097184,
+              "3": 0.2417606815118896,
+              "4": 0.6578533936122419,
+              "not_applicable": 0.005686254612927863
+            },
+            "reason": null
+          },
+          "answer_relevance": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.735221519857874,
+              "1": 0.04755322373201742,
+              "2": 0.05762611540968388,
+              "3": 0.011113933436252154,
+              "4": 0.018459543538413888,
+              "not_applicable": 0.1300256640257588
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.785505257498928,
+              "1": 0.04297009449834469,
+              "2": 0.051042169693872326,
+              "3": 0.010953983006977992,
+              "4": 0.01821034084792881,
+              "not_applicable": 0.09131815445394802
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 3763,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "fail"
+    },
+    {
+      "id": "persian-dispute",
+      "question": "در محصول نمونه سپهر، مهلت اعتراض به تراکنش و زمان رسیدگی اولیه چقدر است؟",
+      "expected": "Page 4: 7 calendar days from transaction; initial review within 4 business days after complete information.",
+      "actual": {
+        "request_id": "33b61ff1-586e-4293-a057-b9e6634f2e6d",
+        "answer": "پاسخی تولید نشد.",
+        "trace": [
+          {
+            "step": 1,
+            "component": "documents_agent",
+            "result": {
+              "answer": null,
+              "sources": [
+                {
+                  "text": "صورت حساب، اعتراض و پرسش های خارج از سند صورت حساب حساب سپهر آزمایشی برای ۱۸ ماه گذشته در دسترس است. این بازه مخصوص این محصول آموزشی است. دریافت نسخه الکترونیکی رایگان و هزینه هر درخواست نسخه کاغذی ۳۰٬۰۰۰ ریال است، مستقل از تعداد صفحات همان درخواست. صورت حساب شامل تاریخ، مبلغ، نوع و وضعیت تراکنش است. در محاسبه مخارج و درآمد قطعی، فقط تراکنش تکمیل شده لحاظ می شود؛ تراکنش در انتظار یا ناموفق نباید به عنوان هزینه قطعی شمرده شود. مهلت ثبت اعتراض به تراکنش ۷ روز تقویمی از تاریخ تراکنش است. مشتری باید شناسه تراکنش، تاریخ و شرح مشکل را اعلام کند. ارائه رمز یا رمز یک بارمصرف برای اعتراض لازم نیست. رسیدگی اولیه حداکثر ۴ روز کاری پس از دریافت اطلاعات کامل انجام می شود. نمونه محاسباتی ساختگی: اگر مخارج تکمیل شده شهریور ۸٬۰۰۰٬۰۰۰ ریال و مهر ۱۰٬۰۰۰٬۰۰۰ ریال باشد، افزایش برابر ۲٬۰۰۰٬۰۰۰ ریال و درصد رشد برابر ۲۵ درصد است. این اعداد صرفاً مثال آموزشی هستند و از دیتابیس مشتریان استخراج نشده اند. این سند درباره نرخ سود سپرده، نرخ سود وام، جریمه دیرکرد یا",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 4,
+                  "score": 0.7322507500648499,
+                  "rerank_score": 1
+                },
+                {
+                  "text": "انتقال وجه و سقف تراکنش قوانین این صفحه فقط برای انتقال های آموزشی حساب سپهر آزمایشی است. همه مبالغ به ریال بیان شده اند. برای تبدیل ریال به تومان باید مبلغ ریالی بر ۱۰ تقسیم شود. سقف هر انتقال داخلی ۵۰٬۰۰۰٬۰۰۰ ریال و سقف مجموع انتقال داخلی در هر روز تقویمی ۱۵۰٬۰۰۰٬۰۰۰ ریال است. سقف روزانه در ساعت صفر به وقت تهران بازنشانی می شود. انتقال ناموفق از سقف روزانه کم نمی کند. کارمزد هر انتقال داخلی موفق ۵٬۰۰۰ ریال است و جدا از مبلغ انتقال از موجودی قابل برداشت کسر می شود. انتقال داخلی بین دو حساب متعلق به همان مشتری در این طرح بدون کارمزد است. برای انتقال ناموفق کارمزدی دریافت نمی شود. سقف هر انتقال بین بانکی آزمایشی ۱۰۰٬۰۰۰٬۰۰۰ ریال است. درخواست ثبت شده پیش از ساعت ۱۳ روز کاری، همان روز پردازش می شود. درخواست ساعت ۱۳ یا بعد از آن و درخواست روز تعطیل، روز کاری بعد پردازش می شود. این زمان بندی فقط شبیه سازی است. درخواست انتقال زمان بندی شده تا پیش از شروع پردازش قابل لغو است. پس از شروع پردازش، لغو",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 2,
+                  "score": 0.5884709358215332,
+                  "rerank_score": 0.796875
+                },
+                {
+                  "text": "افتتاح حساب و احراز هویت این سند فقط برای آزمون دستیار بانکی تهیه شده است. تمام قوانین، مبالغ و زمان ها ساختگی هستند و مقررات هیچ بانک واقعی محسوب نمی شوند. این راهنما مخصوص حساب آموزشی »سپهر آزمایشی« است و شرایط آن را نباید به سایر حساب ها تعمیم داد. برای افتتاح حساب سپهر آزمایشی، ارائه مدرک شناسایی معتبر، شماره موبایل تأییدشده و نشانی محل سکونت لازم است. شماره موبایل باید متعلق به متقاضی باشد. حداقل سن افتتاح مستقل این حساب ۱۸ سال است؛ افراد زیر این سن در این طرح پذیرفته نمی شوند. حداقل موجودی افتتاح حساب سپهر آزمایشی ۲٬۰۰۰٬۰۰۰ ریال است. این مبلغ کارمزد نیست و به موجودی حساب افزوده می شود. این شرط فقط به حساب سپهر آزمایشی مربوط است؛ درباره حداقل موجودی سایر حساب ها این سند حکمی ندارد. اگر مدارک کامل باشد، بررسی درخواست حداکثر ۲ روز کاری طول می کشد. درخواست ناقص تا زمان تکمیل مدارک بررسی نمی شود. اگر ظرف ۱۰ روز تقویمی مدارک تکمیل نشود، درخواست بسته می شود و متقاضی باید درخواست تازه ای ثبت کند. تغییر شماره موبایل نیازمند احراز",
+                  "source": "persian_demo_rules.pdf",
+                  "page": 1,
+                  "score": 0.5552465915679932,
+                  "rerank_score": 0.5
+                }
+              ],
+              "rag_trace": [
+                {
+                  "node": "retriever",
+                  "count": 8,
+                  "backend": "milvus"
+                },
+                {
+                  "node": "reranker",
+                  "count": 3,
+                  "method": "cross_encoder",
+                  "model": "qwen/qwen3-reranker-8b"
+                },
+                {
+                  "node": "generation",
+                  "evidence_count": 3,
+                  "skipped": true,
+                  "reason": "coordinator_synthesis"
+                }
+              ]
+            },
+            "execution": "sequential",
+            "batch_duration_ms": 1259.5
+          }
+        ],
+        "router_trace": [
+          {
+            "step": 1,
+            "route": "documents",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0.98,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 0.02
+            }
+          },
+          {
+            "step": 2,
+            "route": "final",
+            "model": "typesafe/jev-1.14-20261014",
+            "probabilities": {
+              "documents": 0,
+              "database": 0,
+              "both": 0,
+              "calculator": 0,
+              "final": 1
+            }
+          }
+        ],
+        "timings": {
+          "total_ms": 47877.0,
+          "events": [
+            {
+              "stage": "router",
+              "duration_ms": 372.8,
+              "start_ms": 0.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 371.0,
+              "start_ms": 1.4,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 3878.1,
+              "start_ms": 373.8,
+              "status": "ok",
+              "step": 1
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 3877.6,
+              "start_ms": 373.9,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            },
+            {
+              "stage": "tool_call",
+              "duration_ms": 1259.4,
+              "start_ms": 4252.3,
+              "status": "ok",
+              "tool": "documents_agent"
+            },
+            {
+              "stage": "retriever",
+              "duration_ms": 767.0,
+              "start_ms": 4261.7,
+              "status": "ok"
+            },
+            {
+              "stage": "document_index",
+              "duration_ms": 32.5,
+              "start_ms": 4266.0,
+              "status": "ok"
+            },
+            {
+              "stage": "query_embedding",
+              "duration_ms": 699.7,
+              "start_ms": 4298.6,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 696.9,
+              "start_ms": 4300.2,
+              "status": "ok",
+              "endpoint": "/embeddings",
+              "model": "baai/bge-m3"
+            },
+            {
+              "stage": "milvus_search",
+              "duration_ms": 27.8,
+              "start_ms": 4998.3,
+              "status": "ok"
+            },
+            {
+              "stage": "reranker",
+              "duration_ms": 462.3,
+              "start_ms": 5033.0,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 458.2,
+              "start_ms": 5035.4,
+              "status": "ok",
+              "endpoint": "/rerank",
+              "model": "qwen/qwen3-reranker-8b"
+            },
+            {
+              "stage": "document_generation",
+              "duration_ms": 5.6,
+              "start_ms": 5501.2,
+              "status": "ok"
+            },
+            {
+              "stage": "router",
+              "duration_ms": 323.6,
+              "start_ms": 5512.1,
+              "status": "ok"
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 320.3,
+              "start_ms": 5514.2,
+              "status": "ok",
+              "endpoint": "/decisions",
+              "model": "typesafe/jev-1.14"
+            },
+            {
+              "stage": "coordinator_chat",
+              "duration_ms": 42040.7,
+              "start_ms": 5836.2,
+              "status": "ok",
+              "step": 2
+            },
+            {
+              "stage": "provider_request",
+              "duration_ms": 42040.4,
+              "start_ms": 5836.3,
+              "status": "ok",
+              "endpoint": "/chat/completions",
+              "model": "nvidia/nemotron-3.5-lightning:free"
+            }
+          ]
+        },
+        "langsmith_trace_id": "01a167b8-b436-7695-9471-f1e477e60e9d"
+      },
+      "elapsed_seconds": 47.9,
+      "judgment": {
+        "verdict": "fail",
+        "probabilities": {
+          "pass": 0.0031373019593015513,
+          "partial": 0.037948579876161605,
+          "fail": 0.9589141181645369
+        },
+        "metrics": {
+          "faithfulness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9792419579335446,
+              "1": 0.0005233417358932517,
+              "2": 0.00036113919384767024,
+              "3": 0.00017975330325996903,
+              "4": 0.0001461682286938259,
+              "not_applicable": 0.01954763960476065
+            },
+            "reason": null
+          },
+          "completeness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9978703215542573,
+              "1": 0.00031482781764574267,
+              "2": 0.00025960258021051646,
+              "3": 8.230800557055365e-05,
+              "4": 5.994768579160068e-05,
+              "not_applicable": 0.0014129923565244346
+            },
+            "reason": null
+          },
+          "context_relevance": {
+            "score": 1.0,
+            "choice": "4",
+            "probabilities": {
+              "0": 0.004478077464794316,
+              "1": 0.010294496146906019,
+              "2": 0.026887087488746703,
+              "3": 0.21222470875027358,
+              "4": 0.7429429190340118,
+              "not_applicable": 0.003172711115267592
+            },
+            "reason": null
+          },
+          "answer_relevance": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9964528442338236,
+              "1": 0.00019511978783660861,
+              "2": 0.00012278022042331853,
+              "3": 5.685023017703713e-05,
+              "4": 4.2821905148404365e-05,
+              "not_applicable": 0.0031295836225910412
+            },
+            "reason": null
+          },
+          "correctness": {
+            "score": 0.0,
+            "choice": "0",
+            "probabilities": {
+              "0": 0.9973766700505379,
+              "1": 0.00032171661401597873,
+              "2": 0.00015043787505983222,
+              "3": 8.2829060201482e-05,
+              "4": 4.3772048039910354e-05,
+              "not_applicable": 0.0020245743521448223
+            },
+            "reason": null
+          }
+        },
+        "model": "baseten/mammoth-1-20261021",
+        "usage": {
+          "input_tokens": 5882,
+          "output_tokens": 6,
+          "cost": 0
+        }
+      },
+      "status": "fail"
+    }
+  ],
+  "summary": {
+    "metrics": {
+      "faithfulness": {
+        "mean": 0.5416666666666666,
+        "scored": 6,
+        "unscored": 6
+      },
+      "completeness": {
+        "mean": 0.625,
+        "scored": 10,
+        "unscored": 2
+      },
+      "context_relevance": {
+        "mean": 1.0,
+        "scored": 7,
+        "unscored": 5
+      },
+      "answer_relevance": {
+        "mean": 0.65,
+        "scored": 10,
+        "unscored": 2
+      },
+      "correctness": {
+        "mean": 0.625,
+        "scored": 10,
+        "unscored": 2
+      }
+    },
+    "total": 12,
+    "judged": 10,
+    "counts": {
+      "pass": 6,
+      "partial": 0,
+      "fail": 4,
+      "api_error": 2,
+      "judge_error": 0
+    },
+    "pass_rate_all": 0.5,
+    "pass_rate_judged": 0.6,
+    "mean_api_seconds": 22.9837,
+    "p95_api_seconds": 47.9
+  },
+  "candidate_model": "nvidia/nemotron-3.5-lightning:free",
+  "execution_note": "Fresh assistant responses from an isolated temporary server using the candidate_model; primary application CHAT_MODEL was unchanged. Two sequential batches combined; all failures retained."
+}
