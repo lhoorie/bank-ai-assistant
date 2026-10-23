@@ -25,7 +25,8 @@ A Persian-first banking demo with traceable routing and source-backed answers.
 Requires Docker and Docker Compose. Create `.env` only if it does not already exist:
 
 ```bash
-cd /mnt/h
+git clone https://github.com/lhoorie/bank-ai-assistant.git
+cd bank-ai-assistant
 if [ ! -f .env ]; then
   cp .env.example .env
 fi
@@ -103,6 +104,25 @@ The UI supports Markdown, LaTeX, and the locally bundled Vazirmatn font. Display
 ## Documents and storage
 
 PDFs live in `data/bank_documents`; SQLite lives in `data/bank.db`. The seed creates English account/card policies and sample customer data. A four-page Persian PDF covers the separate **Sepehr demo** product. Specify the filename or product when rules differ.
+
+### Sample database and data generation
+
+[`data/bank.db`](data/bank.db) is a bundled SQLite database containing fictional demo data: 3 customers, 3 accounts, and 7 transactions. No real customer data is included.
+
+To create the database when missing or add any missing seed records, run from the project root:
+
+```bash
+python -m pip install -r requirements.txt
+python -m app.seed
+```
+
+With Docker, seeding runs automatically during image build and application startup. To run it manually in the running container:
+
+```bash
+docker compose exec assistant python -m app.seed
+```
+
+The seed also creates `accounts.pdf` and `cards.pdf` if they are missing. It uses `INSERT OR IGNORE`: existing rows are preserved, so this command does not reset modified data. The bundled database is a reproducible starting snapshot; keep runtime database changes out of commits. The Persian sample document is included in `data/bank_documents/persian_demo_rules.pdf`; its generator is `scripts/create_persian_pdf.py`.
 
 Check extracted text before indexing, without model calls or output files:
 
