@@ -51,7 +51,7 @@ The provider must support `/chat/completions` with tools, `/embeddings`, and `/r
 ```bash
 curl -sS http://localhost:8000/ask \
   -H 'Content-Type: application/json' \
-  -d '{"question":"Compare Sara’s balance with the minimum opening balance in accounts.pdf. Use the calculator to compute the ratio."}'
+  -d '{"question":"Compare Sara’s balance with the minimum opening balance for the fictional Adan demo bank. Use the calculator to compute the ratio."}'
 ```
 
 Responses include `answer`, `request_id`, tool `trace`, `router_trace`, and `timings`. When tracing is enabled, they also include `langsmith_trace_id`. `/health` checks API liveness only.
@@ -103,7 +103,7 @@ The UI supports Markdown, LaTeX, and the locally bundled Vazirmatn font. Display
 
 ## Documents and storage
 
-PDFs live in `data/bank_documents`; SQLite lives in `data/bank.db`. The seed creates English account/card policies and sample customer data. A four-page Persian PDF covers the separate **Sepehr demo** product. Specify the filename or product when rules differ.
+PDFs live in `data/bank_documents`; SQLite lives in `data/bank.db`. The seed creates English account/card policies and sample customer data. A four-page Persian PDF covers the separate **Sepehr demo** product. Specify the product when rules differ.
 
 ### Sample database and data generation
 
@@ -169,7 +169,7 @@ node tests/check_render.cjs
 
 Tests are in [`tests/`](tests/). Coverage includes SQL safety, arithmetic, PDF/OCR, retrieval, routing, parallel execution, the explorer, logging, and local LangSmith instrumentation. Unit tests use controlled model/reranker responses; they do not guarantee real-model answer quality.
 
-[`examples/scenarios.json`](examples/scenarios.json) contains 22 scenarios covering English/Persian documents, joins, balances, arithmetic, mixed sources, missing data, and rejected operations. Questions name the relevant PDF where product rules differ.
+[`examples/scenarios.json`](examples/scenarios.json) contains 22 scenarios covering English/Persian documents, joins, balances, arithmetic, mixed sources, missing data, and rejected operations. Questions use product names where rules differ; no filenames are required in the sample questions.
 
 ```bash
 # List examples without API calls:

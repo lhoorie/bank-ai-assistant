@@ -1,11 +1,11 @@
 [
   {
-    "question": "طبق accounts.pdf برای افتتاح حساب چه مدارکی لازم است و حداقل موجودی چقدر است؟",
+    "question": "برای افتتاح حساب در بانک نمونه آدان چه مدارکی لازم است و حداقل موجودی چقدر است؟",
     "expected": "Fictional demo rules: identity document, verified mobile number, 1000000 IRR; source accounts.pdf",
     "id": "account-opening"
   },
   {
-    "question": "طبق cards.pdf اگر کارت گم شود چه کار کنم و صدور مجدد چقدر هزینه و زمان دارد؟",
+    "question": "اگر کارت بانک نمونه آدان گم شود چه کار کنم و صدور مجدد چقدر هزینه و زمان دارد؟",
     "expected": "Report immediately through demo app/support; replacement 50000 IRR, 3 business days, identity verification; source cards.pdf; do not claim card was blocked",
     "id": "lost-card"
   },
@@ -46,32 +46,32 @@
   },
   {
     "id": "balance-ratio",
-    "question": "مانده حساب Sara را از دیتابیس بگیر و با حداقل موجودی افتتاح حساب در accounts.pdf مقایسه کن. با ماشین‌حساب نسبت را محاسبه کن.",
+    "question": "مانده حساب Sara را از دیتابیس بگیر و با حداقل موجودی افتتاح حساب در بانک نمونه آدان مقایسه کن. با ماشین‌حساب نسبت را محاسبه کن.",
     "expected": "Database balance 12200000 IRR; accounts.pdf page 1 minimum 1000000 IRR; calculator ratio 12.2. All three tools."
   },
   {
     "id": "persian-opening",
-    "question": "طبق persian_demo_rules.pdf مدارک، حداقل سن و حداقل موجودی افتتاح حساب سپهر چیست؟",
+    "question": "مدارک، حداقل سن و حداقل موجودی افتتاح حساب سپهر چیست؟",
     "expected": "Page 1: identity document, verified mobile belonging to applicant, address; age 18; minimum 2000000 IRR. Do not mix with accounts.pdf."
   },
   {
     "id": "persian-shipping",
-    "question": "طبق persian_demo_rules.pdf هزینه صدور کارت جایگزین همراه ارسال را با ماشین‌حساب جمع بزن.",
+    "question": "هزینه صدور کارت جایگزین سپهر همراه ارسال را با ماشین‌حساب جمع بزن.",
     "expected": "Page 3: 120000 + 80000 = 200000 IRR; documents and calculator; no database needed."
   },
   {
     "id": "statement-comparison",
-    "question": "بازه دسترسی به صورت‌حساب را در accounts.pdf و persian_demo_rules.pdf مقایسه کن.",
+    "question": "بازه دسترسی به صورت‌حساب را در بانک نمونه آدان و محصول نمونه سپهر مقایسه کن.",
     "expected": "accounts.pdf page 1: 12 months; persian_demo_rules.pdf page 4: 18 months; cite both and distinguish products."
   },
   {
     "id": "persian-transfer",
-    "question": "طبق persian_demo_rules.pdf انتقال بین‌بانکی ساعت ۱۳ روز کاری چه زمانی پردازش می‌شود؟",
+    "question": "در محصول نمونه سپهر، انتقال بین‌بانکی ساعت ۱۳ روز کاری چه زمانی پردازش می‌شود؟",
     "expected": "Page 2: next business day; at 13:00 is included in cutoff, not same day."
   },
   {
     "id": "persian-dispute",
-    "question": "طبق persian_demo_rules.pdf مهلت اعتراض به تراکنش و زمان رسیدگی اولیه چقدر است؟",
+    "question": "در محصول نمونه سپهر، مهلت اعتراض به تراکنش و زمان رسیدگی اولیه چقدر است؟",
     "expected": "Page 4: 7 calendar days from transaction; initial review within 4 business days after complete information."
   },
   {
@@ -91,8 +91,8 @@
   },
   {
     "id": "missing-document",
-    "question": "طبق missing_policy.pdf نرخ سود سپرده چقدر است؟",
-    "expected": "No evidence from requested file; do not substitute another document or invent rate."
+    "question": "طبق سیاست سپرده بلندمدت پنج‌ساله، نرخ سود سپرده چقدر است؟",
+    "expected": "Requested five-year deposit policy is absent from the sample documents; report missing evidence, do not substitute another policy or invent a rate."
   },
   {
     "id": "out-of-scope",

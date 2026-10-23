@@ -5,6 +5,8 @@
 - [Persian recheck](persian-opening-recheck.json): a follow-up after strengthening the complete-answer instruction.
 - [Local tool results](tool-results.json): deterministic SQL/calculator output, not LLM evaluation.
 
+The recorded results below were captured with earlier questions that named PDF files. Current sample questions use product names instead; those revised questions have not been evaluated against the live provider.
+
 ## Manual review
 
 | Scenario | Observed result |
